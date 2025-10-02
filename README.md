@@ -1,4 +1,4 @@
-# SampaTech
+
 # 🌐 SampTech – Soluções em Informática
 
 <p align="center">
