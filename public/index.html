@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SampTech - Informática & Reparos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fafafa',
+                            100: '#f5f5f5',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fade-in 0.6s ease-out',
+                        'slide-up': 'slide-up 0.5s ease-out',
+                        'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'fade-in': {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        'slide-up': {
+                            '0%': { 
+                                opacity: '0',
+                                transform: 'translateY(20px)'
+                            },
+                            '100%': { 
+                                opacity: '1',
+                                transform: 'translateY(0)'
+                            }
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.8' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            overflow-x: hidden;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            background-color: #1a1a1a;
+        }
+        
+        .btn-primary {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #262626;
+            border-color: #404040;
+        }
+        
+        .btn-secondary {
+            background-color: #404040;
+            color: #f5f5f5;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #525252;
+            transform: translateY(-1px);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #f5f5f5;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #a3a3a3;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            border: 1px solid #262626;
+        }
+        
+        .service-card:hover {
+            border-color: #404040;
+            transform: translateY(-3px);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Interactive Banner */
+        .interactive-banner {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #0a0a0a;
+        }
+        
+        .banner-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/public/assets/img/DesignST.png') center/cover no-repeat;
+            opacity: 0.1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .reveal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            z-index: 2;
+        }
+        
+        .reveal-cell {
+            background-color: #0a0a0a;
+            transition: background-color 0.5s ease;
+            border: 1px solid #1a1a1a;
+        }
+        
+        .reveal-cell.revealed {
+            background-color: transparent;
+        }
+        
+        .banner-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            z-index: 3;
+            pointer-events: none;
+        }
+        
+        .led-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 4;
+            pointer-events: none;
+        }
+        
+        .led-border.active {
+            opacity: 1;
+            animation: led-pulse 2s infinite;
+        }
+        
+        @keyframes led-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #525252;
+        }
+        
+        /* Focus states for accessibility */
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid #a3a3a3;
+            outline-offset: 2px;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            border: 2px solid #1a1a1a;
+            border-top: 2px solid #a3a3a3;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Status indicators */
+        .status-online {
+            background-color: #22c55e;
+        }
+        
+        .status-offline {
+            background-color: #ef4444;
+        }
+        
+        .status-busy {
+            background-color: #f59e0b;
+        }
+
+        /* Notification badge */
+        .notification-badge {
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+        
+        /* Icon styles */
+        .icon-xl {
+            font-size: 3rem;
+        }
+        
+        .icon-lg {
+            font-size: 2rem;
+        }
+        
+        .icon-md {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-black text-[#e5e5e5]">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-[#262626]">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center border border-[#262626]">
+                        <i class='bx bx-chip icon-md text-[#a3a3a3]'></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">SampTech</h1>
+                        <p class="text-xs text-[#a3a3a3]">Informática & Reparos</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="nav-link active text-[#e5e5e5]">
+                        <i class='bx bx-home-alt-2 mr-2'></i>Início
+                    </a>
+                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
+                        <i class='bx bx-cog mr-2'></i>Serviços
+                    </a>
+                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
+                        <i class='bx bx-store-alt mr-2'></i>Produtos
+                    </a>
+                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
+                        <i class='bx bx-info-circle mr-2'></i>Sobre
+                    </a>
+                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
+                        <i class='bx bx-phone mr-2'></i>Contato
+                    </a>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="notification-btn" class="btn-primary px-3 py-2 rounded-lg">
+                            <i class='bx bx-bell'></i>
+                        </button>
+                        <div class="notification-badge">3</div>
+                    </div>
+                    <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium hidden sm:block">
+                        <i class='bx bx-phone mr-2'></i>(11) 9999-9999
+                    </button>
+                    <button class="btn-secondary px-6 py-2 rounded-lg font-medium">
+                        <i class='bx bx-calendar mr-2'></i>Agendar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interactive Banner Section -->
+    <section class="py-8 md:py-12">
+        <div class="container mx-auto px-4">
+            <div class="interactive-banner">
+                <div class="banner-image"></div>
+                <div class="reveal-overlay" id="reveal-overlay"></div>
+                <div class="led-border" id="led-border"></div>
+                <div class="banner-content">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+                        <span class="gradient-text">SampTech</span> Informática
+                    </h1>
+                    <p class="text-xl text-[#a3a3a3] mb-8 max-w-2xl mx-auto animate-slide-up">
+                        <i class='bx bx-shield-alt-2 mr-2'></i>Assistência Técnica Especializada em Reparos e Manutenção de Equipamentos Eletrônicos
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6 animate-slide-up" style="animation-delay: 0.2s">
+                        <button class="btn-secondary px-8 py-4 rounded-lg text-lg font-semibold flex items-center justify-center">
+                            <i class='bx bx-wrench mr-3'></i> Solicitar Orçamento
+                        </button>
+                        <button class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold flex items-center justify-center">
+                            <i class='bx bx-laptop mr-3'></i> Nossos Serviços
+                        </button>
+                    </div>
+                    
+                    <!-- Live Status -->
+                    <div class="bg-[#1a1a1a]/80 rounded-xl p-6 max-w-2xl mx-auto border border-[#262626] animate-slide-up" style="animation-delay: 0.4s">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center justify-center">
+                            <i class='bx bx-time-five mr-2'></i>Status do Atendimento
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="status-indicators">
+                            <div class="text-center">
+                                <div class="w-3 h-3 status-online rounded-full mx-auto mb-2"></div>
+                                <div class="text-sm">Online</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 status-busy rounded-full mx-auto mb-2"></div>
+                                <div class="text-sm">Ocupado</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-[#e5e5e5]">15min</div>
+                                <div class="text-sm text-[#a3a3a3]">Tempo Médio</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-[#e5e5e5]">2</div>
+                                <div class="text-sm text-[#a3a3a3]">Na Fila</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+                    <i class='bx bx-cog icon-lg mr-4'></i>Nossos Serviços
+                </h2>
+                <p class="text-lg text-[#a3a3a3] max-w-2xl mx-auto">
+                    Soluções completas para todos os seus problemas tecnológicos
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="services-container">
+                <!-- Service Cards will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-[#0a0a0a]">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-slide-up">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+                        <i class='bx bx-star icon-lg mr-4'></i>Por que escolher a SampTech?
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class='bx bx-user-check text-[#a3a3a3]'></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Técnicos Qualificados</h3>
+                                <p class="text-[#a3a3a3]">Nossa equipe possui certificações e anos de experiência no mercado.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class='bx bx-receipt text-[#a3a3a3]'></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Orçamento Grátis</h3>
+                                <p class="text-[#a3a3a3]">Avaliamos seu equipamento sem custo e só cobramos pelo serviço aprovado.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class='bx bx-shield-check text-[#a3a3a3]'></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Garantia nos Serviços</h3>
+                                <p class="text-[#a3a3a3]">Todos os nossos reparos possuem garantia para sua tranquilidade.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class='bx bx-zap text-[#a3a3a3]'></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Atendimento Rápido</h3>
+                                <p class="text-[#a3a3a3]">Priorizamos a agilidade sem comprometer a qualidade do serviço.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="bg-[#1a1a1a] rounded-xl p-8 border border-[#262626]">
+                        <h3 class="text-2xl font-bold mb-6 text-center flex items-center justify-center">
+                            <i class='bx bx-calendar-plus icon-lg mr-3 text-[#a3a3a3]'></i>Agende seu Serviço
+                        </h3>
+                        <form id="appointment-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">
+                                    <i class='bx bx-user mr-2 text-[#a3a3a3]'></i>Nome Completo
+                                </label>
+                                <input type="text" required
+                                       class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors" 
+                                       placeholder="Seu nome">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">
+                                    <i class='bx bx-phone mr-2 text-[#a3a3a3]'></i>Telefone
+                                </label>
+                                <input type="tel" required
+                                       class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors" 
+                                       placeholder="(11) 99999-9999">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">
+                                    <i class='bx bx-cog mr-2 text-[#a3a3a3]'></i>Tipo de Serviço
+                                </label>
+                                <select class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors">
+                                    <option>Manutenção de Computador</option>
+                                    <option>Reparo de Celular</option>
+                                    <option>Configuração de Rede</option>
+                                    <option>Recuperação de Dados</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-secondary w-full py-3 rounded-lg font-semibold flex items-center justify-center">
+                                <i class='bx bx-paper-plane mr-2'></i> Enviar Solicitação
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-black border-t border-[#262626]">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="animate-fade-in">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center border border-[#262626]">
+                            <i class='bx bx-chip text-[#a3a3a3]'></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold gradient-text">SampTech</h3>
+                            <p class="text-xs text-[#a3a3a3]">Informática & Reparos</p>
+                        </div>
+                    </div>
+                    <p class="text-[#a3a3a3] mb-4">
+                        <i class='bx bx-shield-alt-2 mr-2'></i>Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bxl-whatsapp icon-md'></i>
+                        </a>
+                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bxl-instagram icon-md'></i>
+                        </a>
+                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bxl-facebook icon-md'></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact -->
+                <div class="animate-fade-in" style="animation-delay: 0.1s">
+                    <h4 class="text-lg font-semibold mb-4">
+                        <i class='bx bx-address-card mr-2'></i>Contato
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-[#a3a3a3]">
+                            <i class='bx bx-map mr-3 text-[#a3a3a3]'></i>
+                            <span>Rua Exemplo, 123 - São Paulo, SP</span>
+                        </div>
+                        <div class="flex items-center text-[#a3a3a3]">
+                            <i class='bx bx-phone mr-3 text-[#a3a3a3]'></i>
+                            <span>(11) 9999-9999</span>
+                        </div>
+                        <div class="flex items-center text-[#a3a3a3]">
+                            <i class='bx bx-envelope mr-3 text-[#a3a3a3]'></i>
+                            <span>contato@samptech.com</span>
+                        </div>
+                        <div class="flex items-center text-[#a3a3a3]">
+                            <i class='bx bx-time mr-3 text-[#a3a3a3]'></i>
+                            <span>Seg - Sex: 9h às 18h</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div class="animate-fade-in" style="animation-delay: 0.2s">
+                    <h4 class="text-lg font-semibold mb-4">
+                        <i class='bx bx-cog mr-2'></i>Serviços
+                    </h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bx-laptop mr-2'></i>Manutenção de Computadores
+                        </a></li>
+                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bx-mobile-alt mr-2'></i>Reparo de Celulares
+                        </a></li>
+                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bx-wifi mr-2'></i>Redes e Wi-Fi
+                        </a></li>
+                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
+                            <i class='bx bx-hdd mr-2'></i>Recuperação de Dados
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="animate-fade-in" style="animation-delay: 0.3s">
+                    <h4 class="text-lg font-semibold mb-4">
+                        <i class='bx bx-news mr-2'></i>Newsletter
+                    </h4>
+                    <p class="text-[#a3a3a3] mb-4">
+                        Receba dicas e promoções exclusivas por email.
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="Seu email" 
+                               class="flex-1 bg-[#1a1a1a] border border-[#262626] rounded-l-lg px-4 py-2 focus:outline-none focus:border-[#404040] transition-colors">
+                        <button class="btn-secondary px-4 rounded-r-lg">
+                            <i class='bx bx-paper-plane'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-[#262626] mt-8 pt-8 text-center text-[#a3a3a3]">
+                <p>
+                    <i class='bx bx-copyright mr-2'></i>2024 SampTech - Informática & Reparos. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Service Data
+        const services = [
+            {
+                icon: 'bx bx-laptop',
+                title: 'Manutenção de Computadores',
+                description: 'Formatação, limpeza interna, troca de peças e otimização do seu PC ou notebook.',
+                features: ['Formatação', 'Limpeza', 'Upgrade', 'Otimização']
+            },
+            {
+                icon: 'bx bx-mobile-alt',
+                title: 'Reparo de Celulares',
+                description: 'Troca de telas, baterias, conector de carga e conserto de placas para todos os modelos.',
+                features: ['Troca de Tela', 'Baterias', 'Conector', 'Placas']
+            },
+            {
+                icon: 'bx bx-wifi',
+                title: 'Redes e Wi-Fi',
+                description: 'Instalação e configuração de redes, roteadores, repetidores e solução de problemas de conexão.',
+                features: ['Instalação', 'Configuração', 'Repetidores', 'Solução']
+            },
+            {
+                icon: 'bx bx-hdd',
+                title: 'Recuperação de Dados',
+                description: 'Recuperamos seus arquivos importantes de HDs, SSDs, pen drives e cartões de memória.',
+                features: ['HD/SSD', 'Pen Drive', 'Cartão', 'Backup']
+            },
+            {
+                icon: 'bx bx-printer',
+                title: 'Impressoras',
+                description: 'Manutenção, limpeza, troca de cartuchos e configuração de impressoras de todos os modelos.',
+                features: ['Manutenção', 'Limpeza', 'Cartuchos', 'Configuração']
+            },
+            {
+                icon: 'bx bx-game',
+                title: 'Consoles e Games',
+                description: 'Reparo de PlayStation, Xbox, Nintendo Switch e outros consoles de videogame.',
+                features: ['PlayStation', 'Xbox', 'Nintendo', 'Acessórios']
+            }
+        ];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeInteractiveBanner();
+            loadServices();
+            setupAppointmentForm();
+            setupAnimations();
+        });
+
+        // Interactive Banner
+        function initializeInteractiveBanner() {
+            const overlay = document.getElementById('reveal-overlay');
+            const ledBorder = document.getElementById('led-border');
+            const bannerImage = document.querySelector('.banner-image');
+            const cells = [];
+            let revealedCount = 0;
+            const totalCells = 400; // 20x20 grid
+            
+            // Create grid cells
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'reveal-cell';
+                overlay.appendChild(cell);
+                cells.push(cell);
+            }
+            
+            // Mouse move event to reveal cells
+            overlay.addEventListener('mousemove', function(e) {
+                const rect = overlay.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate which cell the mouse is over
+                const cellWidth = rect.width / 20;
+                const cellHeight = rect.height / 20;
+                const cellX = Math.floor(x / cellWidth);
+                const cellY = Math.floor(y / cellHeight);
+                const cellIndex = cellY * 20 + cellX;
+                
+                // Reveal the cell and surrounding cells
+                revealCell(cellIndex);
+                revealCell(cellIndex - 1); // Left
+                revealCell(cellIndex + 1); // Right
+                revealCell(cellIndex - 20); // Top
+                revealCell(cellIndex + 20); // Bottom
+                
+                // Update banner image opacity based on revealed cells
+                const revealPercentage = revealedCount / totalCells;
+                bannerImage.style.opacity = 0.1 + (revealPercentage * 0.9);
+                
+                // Activate LED border when all cells are revealed
+                if (revealedCount === totalCells) {
+                    ledBorder.classList.add('active');
+                }
+            });
+            
+            function revealCell(index) {
+                if (index >= 0 && index < totalCells && !cells[index].classList.contains('revealed')) {
+                    cells[index].classList.add('revealed');
+                    revealedCount++;
+                }
+            }
+            
+            // Reset banner after 10 seconds of inactivity
+            let resetTimer;
+            overlay.addEventListener('mouseleave', function() {
+                resetTimer = setTimeout(resetBanner, 10000);
+            });
+            
+            overlay.addEventListener('mouseenter', function() {
+                clearTimeout(resetTimer);
+            });
+            
+            function resetBanner() {
+                cells.forEach(cell => {
+                    cell.classList.remove('revealed');
+                });
+                revealedCount = 0;
+                bannerImage.style.opacity = 0.1;
+                ledBorder.classList.remove('active');
+            }
+        }
+
+        // Load services dynamically
+        function loadServices() {
+            const servicesContainer = document.getElementById('services-container');
+            
+            services.forEach((service, index) => {
+                const serviceCard = document.createElement('div');
+                serviceCard.className = `service-card bg-[#0a0a0a] rounded-xl p-6 animate-slide-up`;
+                serviceCard.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+                
+                serviceCard.innerHTML = `
+                    <div class="w-12 h-12 bg-[#1a1a1a] rounded-lg flex items-center justify-center mb-4">
+                        <i class="${service.icon} text-[#a3a3a3] icon-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">${service.title}</h3>
+                    <p class="text-[#a3a3a3] mb-4">${service.description}</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${service.features.map(feature => 
+                            `<span class="px-2 py-1 bg-[#1a1a1a] text-xs rounded border border-[#262626]">${feature}</span>`
+                        ).join('')}
+                    </div>
+                    <button class="btn-primary w-full py-3 rounded-lg font-medium">
+                        <i class='bx bx-info-circle mr-2'></i> Solicitar Serviço
+                    </button>
+                `;
+                
+                servicesContainer.appendChild(serviceCard);
+            });
+        }
+
+        // Setup appointment form
+        function setupAppointmentForm() {
+            const appointmentForm = document.getElementById('appointment-form');
+            
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = appointmentForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<div class="loading-spinner"></div>';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    submitBtn.innerHTML = '<i class="bx bx-check mr-2"></i> Agendamento Enviado!';
+                    submitBtn.classList.remove('btn-secondary');
+                    submitBtn.classList.add('bg-[#22c55e]', 'text-white');
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        appointmentForm.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.classList.remove('bg-[#22c55e]', 'text-white');
+                        submitBtn.classList.add('btn-secondary');
+                        submitBtn.disabled = false;
+                    }, 3000);
+                }, 2000);
+            });
+        }
+
+        // Setup scroll animations
+        function setupAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animated elements
+            document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
+                if (el.classList.contains('animate-slide-up')) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                } else if (el.classList.contains('animate-fade-in')) {
+                    el.style.opacity = '0';
+                }
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }
+
+        // Simulate live status updates
+        function updateLiveStatus() {
+            const statusIndicators = document.getElementById('status-indicators');
+            const statuses = ['online', 'busy', 'offline'];
+            const currentStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            
+            // Update status indicator
+            const statusDot = statusIndicators.querySelector('.w-3.h-3');
+            statusDot.className = `w-3 h-3 status-${currentStatus} rounded-full mx-auto mb-2`;
+            
+            // Update queue number randomly between 0-5
+            const queueNumber = Math.floor(Math.random() * 6);
+            statusIndicators.querySelector('div:nth-child(4) .text-lg').textContent = queueNumber;
+        }
+
+        // Update status every 30 seconds
+        setInterval(updateLiveStatus, 30000);
+    </script>
+</body>
+</html>
