@@ -4,7 +4,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge" />
-  <img src="https://img.shields.io/github/languages/top/SeuUser/SampTech?style=for-the-badge" />
+  <img src="https://img.shields.io/github/languages/top/PT-BR/SampTech?style=for-the-badge" />
 </p>
 
 ---
