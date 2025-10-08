@@ -4,777 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SampTech - Informática & Reparos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="/public/assets/img/icon.jpg" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#fafafa',
-                            100: '#f5f5f5',
-                            200: '#e5e5e5',
-                            300: '#d4d4d4',
-                            400: '#a3a3a3',
-                            500: '#737373',
-                            600: '#525252',
-                            700: '#404040',
-                            800: '#262626',
-                            900: '#171717',
-                        }
-                    },
-                    animation: {
-                        'fade-in': 'fade-in 0.6s ease-out',
-                        'slide-up': 'slide-up 0.5s ease-out',
-                        'float': 'float 8s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        'fade-in': {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' }
-                        },
-                        'slide-up': {
-                            '0%': { 
-                                opacity: '0',
-                                transform: 'translateY(20px)'
-                            },
-                            '100%': { 
-                                opacity: '1',
-                                transform: 'translateY(0)'
-                            }
-                        },
-                        'float': {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        body {
-            background-color: #0a0a0a;
-            color: #e5e5e5;
-            overflow-x: hidden;
-        }
-        
-        /* Banner Principal */
-        .banner-section {
-            position: relative;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .floating-banner {
-            position: relative;
-            width: 80%;
-            height: 80%;
-            border-radius: 16px;
-            background: 
-                linear-gradient(135deg, rgba(10, 10, 10, 0.7), rgba(26, 26, 26, 0.5)), 
-                url('./assets/img/DesignST.png') center/cover no-repeat;
-            animation: float 8s ease-in-out infinite;
-            overflow: hidden;
-        }
-        
-        /* Efeito LED nas Bordas */
-        .led-border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .led-border::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, 
-                #ffffff, #979492, #f1f1ea, #d3d3d3, 
-                #d7d7d7, #b4b4b4, #ffffff, #b3b3b3, #1c1b1b);
-            border-radius: 18px;
-            background-size: 400%;
-            z-index: -1;
-        }
-        
-        @keyframes led-glow {
-            0% {
-                background-position: 0 0;
-            }
-            50% {
-                background-position: 400% 0;
-            }
-            100% {
-                background-position: 0 0;
-            }
-        }
-        
-        /* Efeito LED que segue o mouse */
-        .led-follower {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-            filter: blur(15px);
-            z-index: 2;
-            mix-blend-mode: screen;
-        }
-        
-        .floating-banner:hover .led-follower {
-            opacity: 0.7;
-        }
-        
-        /* Conteúdo minimalista no banner (se necessário) */
-        .banner-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1;
-            opacity: 0.9;
-        }
-        
-        .banner-title {
-            font-size: 3rem;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.8);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-        
-        /* Estilos gerais */
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-2px);
-            background-color: #1a1a1a;
-        }
-        
-        .btn-primary {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: #262626;
-            border-color: #404040;
-        }
-        
-        .btn-secondary {
-            background-color: #404040;
-            color: #f5f5f5;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #525252;
-            transform: translateY(-1px);
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: #f5f5f5;
-        }
-        
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #a3a3a3;
-        }
-        
-        .service-card {
-            transition: all 0.3s ease;
-            border: 1px solid #262626;
-        }
-        
-        .service-card:hover {
-            border-color: #404040;
-            transform: translateY(-3px);
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* User Profile Menu */
-        .user-menu {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-        
-        .user-menu:hover {
-            background-color: #1a1a1a;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .user-role {
-            font-size: 12px;
-            color: #a3a3a3;
-        }
-        
-        .profile-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 250px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .profile-dropdown.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        .dropdown-header {
-            padding: 20px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .dropdown-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 18px;
-        }
-        
-        .dropdown-user-info {
-            flex: 1;
-        }
-        
-        .dropdown-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .dropdown-email {
-            font-size: 14px;
-            color: #a3a3a3;
-        }
-        
-        .dropdown-menu {
-            padding: 10px 0;
-        }
-        
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-        
-        .dropdown-item:hover {
-            background-color: #262626;
-        }
-        
-        .dropdown-item i {
-            width: 20px;
-            text-align: center;
-            color: #a3a3a3;
-        }
-        
-        .dropdown-divider {
-            height: 1px;
-            background: #333;
-            margin: 8px 0;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #404040;
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #525252;
-        }
-        
-        /* Focus states for accessibility */
-        button:focus-visible,
-        input:focus-visible,
-        select:focus-visible {
-            outline: 2px solid #a3a3a3;
-            outline-offset: 2px;
-        }
-
-        /* Loading spinner */
-        .loading-spinner {
-            border: 2px solid #1a1a1a;
-            border-top: 2px solid #a3a3a3;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Status indicators */
-        .status-online {
-            background-color: #22c55e;
-        }
-        
-        .status-offline {
-            background-color: #ef4444;
-        }
-        
-        .status-busy {
-            background-color: #f59e0b;
-        }
-
-        /* Notification badge */
-        .notification-badge {
-            background-color: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: -5px;
-            right: -5px;
-        }
-        
-        /* Icon styles */
-        .icon-xl {
-            font-size: 3rem;
-        }
-        
-        .icon-lg {
-            font-size: 2rem;
-        }
-        
-        .icon-md {
-            font-size: 1.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body class="bg-black text-[#e5e5e5]">
+<body>
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-[#262626]">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <!-- Logo -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center border border-[#262626]">
-                        <i class='bx bx-chip icon-md text-[#a3a3a3]'></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold gradient-text">SampTech</h1>
-                        <p class="text-xs text-[#a3a3a3]">Informática & Reparos</p>
-                    </div>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class='bx bx-chip' src="/public/assets/img/favico.png" style="color: white;"></i>
                 </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="nav-link active text-[#e5e5e5]">
-                        <i class='bx bx-home-alt-2 mr-2'></i>Início
-                    </a>
-                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
-                        <i class='bx bx-cog mr-2'></i>Serviços
-                    </a>
-                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
-                        <i class='bx bx-store-alt mr-2'></i>Produtos
-                    </a>
-                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
-                        <i class='bx bx-info-circle mr-2'></i>Sobre
-                    </a>
-                    <a href="#" class="nav-link text-[#a3a3a3] hover:text-[#e5e5e5]">
-                        <i class='bx bx-phone mr-2'></i>Contato
-                    </a>
+                <div class="logo-text">
+                    <div class="logo-title">SampTech</div>
+                    <div class="logo-subtitle">Informática & Reparos</div>
                 </div>
-                
-                <!-- CTA Buttons & User Menu -->
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button id="notification-btn" class="btn-primary px-3 py-2 rounded-lg">
-                            <i class='bx bx-bell'></i>
-                        </button>
-                        <div class="notification-badge">3</div>
-                    </div>
-                    <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium hidden sm:block">
-                        <i class='bx bx-phone mr-2'></i>(11) 9999-9999
-                    </button>
-                    <button class="btn-secondary px-6 py-2 rounded-lg font-medium">
-                        <i class='bx bx-calendar mr-2'></i>Agendar
-                    </button>
-                    
-                    <!-- User Profile Menu -->
-                    <div class="user-menu" id="user-menu">
-                        <div class="user-avatar">JS</div>
-                        <div class="user-info hidden md:block">
-                            <div class="user-name">João Silva</div>
-                            <div class="user-role">Cliente</div>
-                        </div>
-                        <i class='bx bx-chevron-down'></i>
-                        
-                        <!-- Profile Dropdown -->
-                        <div class="profile-dropdown" id="profile-dropdown">
-                            <div class="dropdown-header">
-                                <div class="dropdown-avatar">JS</div>
-                                <div class="dropdown-user-info">
-                                    <div class="dropdown-name">João Silva</div>
-                                    <div class="dropdown-email">joao.silva@email.com</div>
-                                </div>
-                            </div>
-                            
-                            <div class="dropdown-menu">
-                                <div class="dropdown-item">
-                                    <i class='bx bx-user'></i>
-                                    <span>Meu Perfil</span>
-                                </div>
-                                <div class="dropdown-item">
-                                    <i class='bx bx-cog'></i>
-                                    <span>Configurações</span>
-                                </div>
-                                <div class="dropdown-item">
-                                    <i class='bx bx-history'></i>
-                                    <span>Histórico de Serviços</span>
-                                </div>
-                                
-                                <div class="dropdown-divider"></div>
-                                
-                                <div class="dropdown-item">
-                                    <i class='bx bx-help-circle'></i>
-                                    <span>Ajuda & Suporte</span>
-                                </div>
-                                
-                                <div class="dropdown-divider"></div>
-                                
-                                <div class="dropdown-item">
-                                    <i class='bx bx-log-out'></i>
-                                    <span>Sair</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Início</a></li>
+                <li><a href="#" class="nav-link">Serviços</a></li>
+                <li><a href="#" class="nav-link">Produtos</a></li>
+                <li><a href="#" class="nav-link">Sobre</a></li>
+                <li><a href="#" class="nav-link">Contato</a></li>
+            </ul>
+            
+            <!-- CTA Buttons & User Menu -->
+            <div class="nav-actions">
+                <button class="btn btn-primary">
+                    <i class='bx bx-phone'></i>
+                    <span>(64) 9 9280-0407</span>
+                </button>
+                <button class="btn btn-secondary">
+                    <i class='bx bx-calendar'></i>
+                    <span>Agendar</span>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Banner Section -->
-    <section class="banner-section py-8 md:py-12">
+    <section class="banner-section">
         <div class="floating-banner">
-            <div class="led-border"></div>
+            <div class="led-border-system">
+                <div class="led-border-main"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-particle"></div>
+                <div class="led-scanner"></div>
+            </div>
             <div class="led-follower" id="led-follower"></div>
             
-            <!-- Conteúdo minimalista (opcional) -->
             <div class="banner-content">
-                <h1 class="banner-title">SampTech</h1>
+                
+                
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section class="py-16 bg-black">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12 animate-slide-up">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-                    <i class='bx bx-cog icon-lg mr-4'></i>Nossos Serviços
-                </h2>
-                <p class="text-lg text-[#a3a3a3] max-w-2xl mx-auto">
-                    Soluções completas para todos os seus problemas tecnológicos
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="services-container">
-                <!-- Service Cards will be loaded by JavaScript -->
-            </div>
+    <section class="container">
+        <div class="text-center mb-8 animate-slide-up">
+            <h2 class="gradient-text mb-4">Nossos Serviços</h2>
+            <p class="text-center">
+                Soluções completas para todos os seus problemas tecnológicos
+            </p>
+        </div>
+        
+        <div class="services-grid" id="services-container">
+            <!-- Service Cards will be loaded by JavaScript -->
         </div>
     </section>
-
+    <br>
     <!-- Why Choose Us -->
-    <section class="py-16 bg-[#0a0a0a]">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="animate-slide-up">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6 gradient-text">
-                        <i class='bx bx-star icon-lg mr-4'></i>Por que escolher a SampTech?
-                    </h2>
-                    <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <i class='bx bx-user-check text-[#a3a3a3]'></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">Técnicos Qualificados</h3>
-                                <p class="text-[#a3a3a3]">Nossa equipe possui certificações e anos de experiência no mercado.</p>
-                            </div>
+    <section class="container">
+        <div class="grid-col-2">
+            <div class="animate-slide-up">
+                <h2 class="gradient-text mb-6">Por que escolher a SampTech?</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class='bx bx-user-check'></i>
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <i class='bx bx-receipt text-[#a3a3a3]'></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">Orçamento Grátis</h3>
-                                <p class="text-[#a3a3a3]">Avaliamos seu equipamento sem custo e só cobramos pelo serviço aprovado.</p>
-                            </div>
+                        <div class="feature-content">
+                            <h3>Técnicos Qualificados</h3>
+                            <p>Nossa equipe possui certificações e anos de experiência no mercado.</p>
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <i class='bx bx-shield-check text-[#a3a3a3]'></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">Garantia nos Serviços</h3>
-                                <p class="text-[#a3a3a3]">Todos os nossos reparos possuem garantia para sua tranquilidade.</p>
-                            </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class='bx bx-receipt'></i>
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <i class='bx bx-zap text-[#a3a3a3]'></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">Atendimento Rápido</h3>
-                                <p class="text-[#a3a3a3]">Priorizamos a agilidade sem comprometer a qualidade do serviço.</p>
-                            </div>
+                        <div class="feature-content">
+                            <h3>Orçamento Grátis</h3>
+                            <p>Avaliamos seu equipamento sem custo e só cobramos pelo serviço aprovado.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class='bx bx-shield-alt-2'></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Garantia nos Serviços</h3>
+                            <p>Todos os nossos reparos possuem garantia para sua tranquilidade.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class='bx bx-check'></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Atendimento Rápido</h3>
+                            <p>Priorizamos a agilidade sem comprometer a qualidade do serviço.</p>
+                            <br>
                         </div>
                     </div>
                 </div>
-                
-                <div class="animate-slide-up" style="animation-delay: 0.2s">
-                    <div class="bg-[#1a1a1a] rounded-xl p-8 border border-[#262626]">
-                        <h3 class="text-2xl font-bold mb-6 text-center flex items-center justify-center">
-                            <i class='bx bx-calendar-plus icon-lg mr-3 text-[#a3a3a3]'></i>Agende seu Serviço
-                        </h3>
-                        <form id="appointment-form" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium mb-2">
-                                    <i class='bx bx-user mr-2 text-[#a3a3a3]'></i>Nome Completo
-                                </label>
-                                <input type="text" required
-                                       class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors" 
-                                       placeholder="Seu nome">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-2">
-                                    <i class='bx bx-phone mr-2 text-[#a3a3a3]'></i>Telefone
-                                </label>
-                                <input type="tel" required
-                                       class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors" 
-                                       placeholder="(11) 99999-9999">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-2">
-                                    <i class='bx bx-cog mr-2 text-[#a3a3a3]'></i>Tipo de Serviço
-                                </label>
-                                <select class="w-full bg-[#0a0a0a] border border-[#262626] rounded-lg px-4 py-3 focus:outline-none focus:border-[#404040] transition-colors">
-                                    <option>Manutenção de Computador</option>
-                                    <option>Reparo de Celular</option>
-                                    <option>Configuração de Rede</option>
-                                    <option>Recuperação de Dados</option>
-                                    <option>Outro</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn-secondary w-full py-3 rounded-lg font-semibold flex items-center justify-center">
-                                <i class='bx bx-paper-plane mr-2'></i> Enviar Solicitação
-                            </button>
-                        </form>
-                    </div>
+            </div>
+            
+            <div class="animate-slide-up">
+                <div class="appointment-card">
+                    <h3 class="text-center mb-6">
+                        <i class='bx bx-calendar-plus'></i>
+                        Agende seu Serviço
+                    </h3>
+                    <form id="appointment-form" class="appointment-form">
+                        <div class="form-group">
+                            <label>
+                                <i class='bx bx-user'></i>
+                                Nome Completo
+                            </label>
+                            <input type="text" required placeholder="Seu nome">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class='bx bx-phone'></i>
+                                Telefone
+                            </label>
+                            <input type="tel" required placeholder="(64) 9 9280-0407">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class='bx bx-cog'></i>
+                                Tipo de Serviço
+                            </label>
+                            <select>
+                                <option>Manutenção de Computador</option>
+                                <option>Reparo de Celular</option>
+                                <option>Configuração de Rede</option>
+                                <option>Recuperação de Dados</option>
+                                <option>Outro</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-secondary w-full">
+                            <i class='bx bx-paper-plane'></i>
+                            Enviar Solicitação
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 bg-black border-t border-[#262626]">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
                 <!-- Company Info -->
-                <div class="animate-fade-in">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-10 h-10 bg-[#1a1a1a] rounded-lg flex items-center justify-center border border-[#262626]">
-                            <i class='bx bx-chip text-[#a3a3a3]'></i>
+                <div class="footer-section animate-fade-in">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class='bx bx-chip'></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold gradient-text">SampTech</h3>
-                            <p class="text-xs text-[#a3a3a3]">Informática & Reparos</p>
+                            <h3>SampTech</h3>
+                            <p>Informática & Reparos</p>
                         </div>
                     </div>
-                    <p class="text-[#a3a3a3] mb-4">
-                        <i class='bx bx-shield-alt-2 mr-2'></i>Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
+                    <p>
+                        <i class='bx bx-shield-alt-2'></i>
+                        Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bxl-whatsapp icon-md'></i>
+                    <div class="social-links">
+                        <a href="#">
+                            <i class='bx bxl-whatsapp'></i>
                         </a>
-                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bxl-instagram icon-md'></i>
+                        <a href="#">
+                            <i class='bx bxl-instagram'></i>
                         </a>
-                        <a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bxl-facebook icon-md'></i>
+                        <a href="#">
+                            <i class='bx bxl-facebook'></i>
                         </a>
                     </div>
                 </div>
                 
                 <!-- Contact -->
-                <div class="animate-fade-in" style="animation-delay: 0.1s">
-                    <h4 class="text-lg font-semibold mb-4">
-                        <i class='bx bx-address-card mr-2'></i>Contato
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-address-card'></i>
+                        Contato
                     </h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center text-[#a3a3a3]">
-                            <i class='bx bx-map mr-3 text-[#a3a3a3]'></i>
-                            <span>Rua Exemplo, 123 - Rio Verde, GO</span>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class='bx bx-map'></i>
+                            <span>Rua 9 Quadra 2 Lote 19 Conjunto Morada do Sol</span>
                         </div>
-                        <div class="flex items-center text-[#a3a3a3]">
-                            <i class='bx bx-phone mr-3 text-[#a3a3a3]'></i>
-                            <span>(11) 9999-9999</span>
+                        <div class="contact-item">
+                            <i class='bx bx-phone'></i>
+                            <span>(64) 9 9280-0407</span>
                         </div>
-                        <div class="flex items-center text-[#a3a3a3]">
-                            <i class='bx bx-envelope mr-3 text-[#a3a3a3]'></i>
-                            <span>contato@samptech.com</span>
+                        <div class="contact-item">
+                            <i class='bx bx-envelope'></i>
+                            <span>joaovsampaio.dev@gmail.com</span>
                         </div>
-                        <div class="flex items-center text-[#a3a3a3]">
-                            <i class='bx bx-time mr-3 text-[#a3a3a3]'></i>
+                        <div class="contact-item">
+                            <i class='bx bx-time'></i>
                             <span>Seg - Sex: 9h às 18h</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Services -->
-                <div class="animate-fade-in" style="animation-delay: 0.2s">
-                    <h4 class="text-lg font-semibold mb-4">
-                        <i class='bx bx-cog mr-2'></i>Serviços
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-cog'></i>
+                        Serviços
                     </h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bx-laptop mr-2'></i>Manutenção de Computadores
-                        </a></li>
-                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bx-mobile-alt mr-2'></i>Reparo de Celulares
-                        </a></li>
-                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bx-wifi mr-2'></i>Redes e Wi-Fi
-                        </a></li>
-                        <li><a href="#" class="text-[#a3a3a3] hover:text-[#e5e5e5] transition-colors">
-                            <i class='bx bx-hdd mr-2'></i>Recuperação de Dados
-                        </a></li>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-laptop'></i>
+                                Manutenção de Computadores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-mobile-alt'></i>
+                                Reparo de Celulares
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-wifi'></i>
+                                Redes e Wi-Fi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-hdd'></i>
+                                Recuperação de Dados
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 
                 <!-- Newsletter -->
-                <div class="animate-fade-in" style="animation-delay: 0.3s">
-                    <h4 class="text-lg font-semibold mb-4">
-                        <i class='bx bx-news mr-2'></i>Newsletter
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-news'></i>
+                        Newsletter
                     </h4>
-                    <p class="text-[#a3a3a3] mb-4">
+                    <p>
                         Receba dicas e promoções exclusivas por email.
                     </p>
-                    <div class="flex">
-                        <input type="email" placeholder="Seu email" 
-                               class="flex-1 bg-[#1a1a1a] border border-[#262626] rounded-l-lg px-4 py-2 focus:outline-none focus:border-[#404040] transition-colors">
-                        <button class="btn-secondary px-4 rounded-r-lg">
-                            <i class='bx bx-paper-plane'></i>
-                        </button>
+                    <div class="newsletter-form">
+                        <div class="newsletter-input-group">
+                            <input type="email" placeholder="Seu email">
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-paper-plane'></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="border-t border-[#262626] mt-8 pt-8 text-center text-[#a3a3a3]">
+            <div class="footer-bottom">
                 <p>
-                    <i class='bx bx-copyright mr-2'></i>2024 SampTech - Informática & Reparos. Todos os direitos reservados.
+                    <i class='bx bx-copyright'></i>
+                    2025 SampTech - Informática & Reparos. Todos os direitos reservados.
                 </p>
             </div>
         </div>
@@ -826,7 +346,7 @@
             setupBannerLED();
             loadServices();
             setupAppointmentForm();
-            setupUserProfileMenu();
+            setupNavbarScroll();
             setupAnimations();
         });
 
@@ -841,48 +361,28 @@
                 const y = e.clientY - rect.top;
                 
                 // Atualiza a posição do LED follower
-                ledFollower.style.left = `${x - 50}px`;
-                ledFollower.style.top = `${y - 50}px`;
-                
-                // Verifica se o mouse está perto das bordas
-                const borderThreshold = 30;
-                const nearBorder = 
-                    x < borderThreshold || 
-                    x > rect.width - borderThreshold || 
-                    y < borderThreshold || 
-                    y > rect.height - borderThreshold;
-                
-                // Ajusta a opacidade baseado na proximidade das bordas
-                if (nearBorder) {
-                    ledFollower.style.opacity = '0.7';
-                } else {
-                    ledFollower.style.opacity = '0.3';
-                }
+                ledFollower.style.left = `${x}px`;
+                ledFollower.style.top = `${y}px`;
             });
             
             banner.addEventListener('mouseleave', function() {
                 ledFollower.style.opacity = '0';
             });
+
+            banner.addEventListener('mouseenter', function() {
+                ledFollower.style.opacity = '0.6';
+            });
         }
 
-        // User Profile Menu
-        function setupUserProfileMenu() {
-            const userMenu = document.getElementById('user-menu');
-            const profileDropdown = document.getElementById('profile-dropdown');
-            
-            userMenu.addEventListener('click', function(e) {
-                e.stopPropagation();
-                profileDropdown.classList.toggle('active');
-            });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                profileDropdown.classList.remove('active');
-            });
-            
-            // Prevent dropdown from closing when clicking inside
-            profileDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
+        // Navbar Scroll Effect
+        function setupNavbarScroll() {
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
             });
         }
 
@@ -892,22 +392,23 @@
             
             services.forEach((service, index) => {
                 const serviceCard = document.createElement('div');
-                serviceCard.className = `service-card bg-[#0a0a0a] rounded-xl p-6 animate-slide-up`;
+                serviceCard.className = `service-card animate-slide-up`;
                 serviceCard.style.animationDelay = `${0.1 + (index * 0.1)}s`;
                 
                 serviceCard.innerHTML = `
-                    <div class="w-12 h-12 bg-[#1a1a1a] rounded-lg flex items-center justify-center mb-4">
-                        <i class="${service.icon} text-[#a3a3a3] icon-lg"></i>
+                    <div class="service-icon">
+                        <i class="${service.icon}"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">${service.title}</h3>
-                    <p class="text-[#a3a3a3] mb-4">${service.description}</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
+                    <h3 class="service-title">${service.title}</h3>
+                    <p class="service-description">${service.description}</p>
+                    <div class="service-features">
                         ${service.features.map(feature => 
-                            `<span class="px-2 py-1 bg-[#1a1a1a] text-xs rounded border border-[#262626]">${feature}</span>`
+                            `<span class="feature-tag">${feature}</span>`
                         ).join('')}
                     </div>
-                    <button class="btn-primary w-full py-3 rounded-lg font-medium">
-                        <i class='bx bx-info-circle mr-2'></i> Solicitar Serviço
+                    <button class="btn btn-primary">
+                        <i class='bx bx-info-circle'></i>
+                        Solicitar Serviço
                     </button>
                 `;
                 
@@ -925,22 +426,18 @@
                 // Show loading state
                 const submitBtn = appointmentForm.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<div class="loading-spinner"></div>';
+                submitBtn.innerHTML = 'Enviando...';
                 submitBtn.disabled = true;
                 
                 // Simulate API call
                 setTimeout(() => {
-                    submitBtn.innerHTML = '<i class="bx bx-check mr-2"></i> Agendamento Enviado!';
-                    submitBtn.classList.remove('btn-secondary');
-                    submitBtn.classList.add('bg-[#22c55e]', 'text-white');
+                    submitBtn.innerHTML = '<i class="bx bx-check"></i> Agendamento Enviado!';
+                    submitBtn.disabled = false;
                     
                     // Reset form after 3 seconds
                     setTimeout(() => {
                         appointmentForm.reset();
                         submitBtn.innerHTML = originalText;
-                        submitBtn.classList.remove('bg-[#22c55e]', 'text-white');
-                        submitBtn.classList.add('btn-secondary');
-                        submitBtn.disabled = false;
                     }, 3000);
                 }, 2000);
             });
@@ -966,11 +463,10 @@
             document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
                 if (el.classList.contains('animate-slide-up')) {
                     el.style.opacity = '0';
-                    el.style.transform = 'translateY(20px)';
+                    el.style.transform = 'translateY(30px)';
                 } else if (el.classList.contains('animate-fade-in')) {
                     el.style.opacity = '0';
                 }
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(el);
             });
         }
