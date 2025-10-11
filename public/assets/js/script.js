@@ -202,3 +202,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.observe(el);
             });
         }
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- LÓGICA DO MENU DE PERFIL (JÁ EXISTENTE) ---
+    // ... seu código do menu de perfil ...
+
+    // --- LÓGICA DO FORMULÁRIO MULTI-ETAPAS ---
+    const multiStepForm = document.querySelector('.appointment-form');
+    
+    // Só executa o código se estiver na página do formulário
+    if (multiStepForm) {
+        const formSteps = [...multiStepForm.querySelectorAll('.form-step')];
+        const progressSteps = [...document.querySelectorAll('.progress-step')];
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentStep = 0;
+
+        const updateFormSteps = () => {
+            // Esconde todas as etapas e mostra a atual
+            formSteps.forEach((step, index) => {
+                step.classList.toggle('active-step', index === currentStep);
+            });
+
+            // Atualiza a barra de progresso
+            progressSteps.forEach((step, index) => {
+                step.classList.toggle('active', index <= currentStep);
+            });
+
+            // Lógica dos botões
+            prevBtn.style.display = currentStep === 0 ? 'none' : 'inline-flex';
+            
+            if (currentStep === formSteps.length - 1) {
+                nextBtn.innerHTML = "Enviar Solicitação <i class='bx bx-paper-plane'></i>";
+            } else {
+                nextBtn.innerHTML = "Avançar <i class='bx bx-right-arrow-alt'></i>";
+            }
+        };
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < formSteps.length - 1) {
+                currentStep++;
+                updateFormSteps();
+            } else {
+                // Se for a última etapa, o botão envia o formulário
+                multiStepForm.submit();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateFormSteps();
+            }
+        });
+
+        // Inicializa o formulário na primeira etapa
+        updateFormSteps();
+    }
+    
+});

@@ -18,7 +18,7 @@
                 </div>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Início</a></li> <li><a href="#" class="nav-link">Serviços</a></li>
+                <li><a href="/public/index.html" class="nav-link">Início</a></li> <li><a href="#" class="nav-link">Serviços</a></li>
                 <li><a href="#" class="nav-link">Produtos</a></li>
                 <li><a href="#" class="nav-link">Sobre</a></li>
                 <li><a href="#" class="nav-link">Contato</a></li>
@@ -44,90 +44,220 @@
             </div>
         </div>
     </nav>
-
-    <main>
-        <section class="container" style="padding-top: 8rem; padding-bottom: 5rem;">
+<main>
+    <section class="container" style="padding-top: 8rem; padding-bottom: 5rem;">
+        
+        <div class="neon-border-box">
             <div class="appointment-card" style="max-width: 800px; margin: 0 auto;">
-                <h2 class="gradient-text text-center" style="margin-bottom: 2rem;">
+                <h2 class="gradient-text text-center" style="margin-bottom: 1rem;">
                     <i class='bx bx-calendar-plus'></i>
                     Agendamento de Serviço
                 </h2>
-                <p class="text-center text-secondary" style="margin-bottom: 3rem;">
-                    Preencha os campos abaixo para dar entrada no seu equipamento. Entraremos em contato em breve para confirmar o agendamento.
-                </p>
+
+                <div class="form-progress">
+                    <div class="progress-step active" data-title="Dados">1</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-title="Equipamento">2</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-title="Serviço">3</div>
+                </div>
 
                 <form action="https://formsubmit.co/joaovsampaio.dev@gmail.com" method="POST" class="appointment-form">
                     
-                    <fieldset class="form-fieldset">
-                        <legend>1. Seus Dados</legend>
-                        <div class="form-group">
-                            <label><i class='bx bx-user'></i> Nome Completo</label>
-                            <input type="text" name="Nome" required placeholder="Digite seu nome completo">
-                        </div>
-                        <div class="grid-col-2" style="gap: 1.5rem;">
+                    <div class="form-step active-step">
+                        <fieldset class="form-fieldset">
+                            <legend>1. Seus Dados</legend>
                             <div class="form-group">
-                                <label><i class='bx bx-phone'></i> Telefone / WhatsApp</label>
-                                <input type="tel" name="Telefone" required placeholder="(00) 9 0000-0000">
+                                <label><i class='bx bx-user'></i> Nome Completo</label>
+                                <input type="text" name="Nome" required placeholder="Digite seu nome completo">
                             </div>
-                            <div class="form-group">
-                                <label><i class='bx bx-envelope'></i> E-mail</label>
-                                <input type="email" name="Email" required placeholder="seuemail@exemplo.com">
+                            <div class="grid-col-2" style="gap: 1.5rem;">
+                                <div class="form-group">
+                                    <label><i class='bx bx-phone'></i> Telefone / WhatsApp</label>
+                                    <input type="tel" name="Telefone" required placeholder="(00) 9 0000-0000">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class='bx bx-envelope'></i> E-mail</label>
+                                    <input type="email" name="Email" required placeholder="seuemail@exemplo.com">
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
-                    
-                    <fieldset class="form-fieldset">
-                        <legend>2. Dados do Equipamento</legend>
-                        <div class="grid-col-2" style="gap: 1.5rem;">
-                            <div class="form-group">
-                                <label><i class='bx bx-devices'></i> Tipo de Equipamento</label>
-                                <select name="Tipo de Equipamento" required>
-                                    <option value="" disabled selected>Selecione...</option>
-                                    <option value="Computador (Desktop)">Computador (Desktop)</option>
-                                    <option value="Notebook">Notebook</option>
-                                    <option value="Celular">Celular</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label><i class='bx bx-purchase-tag'></i> Marca e Modelo</label>
-                                <input type="text" name="Marca e Modelo" required placeholder="Ex: Dell Inspiron 15, Samsung S23">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label><i class='bx bx-barcode'></i> Número de Série (Opcional)</label>
-                            <input type="text" name="Numero de Serie" placeholder="Localizado na etiqueta do equipamento">
-                        </div>
-                        <div class="form-group">
-                            <label><i class='bx bx-plug'></i> Acessórios Deixados</label>
-                            <div class="checkbox-group">
-                                <label><input type="checkbox" name="acessorios[]" value="Fonte/Carregador"> Fonte/Carregador</label>
-                                <label><input type="checkbox" name="acessorios[]" value="Cabo USB"> Cabo USB</label>
-                                <label><input type="checkbox" name="acessorios[]" value="Mouse"> Mouse</label>
-                                <label><input type="checkbox" name="acessorios[]" value="Capa/Bolsa"> Capa/Bolsa</label>
-                            </div>
-                        </div>
-                    </fieldset>
+                        </fieldset>
+                    </div>
 
-                    <fieldset class="form-fieldset">
-                        <legend>3. Descrição do Serviço</legend>
-                        <div class="form-group">
-                            <label><i class='bx bx-wrench'></i> Descreva o Problema</label>
-                            <textarea name="Problema Relatado" rows="5" required placeholder="Descreva com o máximo de detalhes o que está acontecendo. Ex: 'Meu notebook não liga, a tela fica preta', 'Meu celular caiu na água e não carrega mais'..."></textarea>
-                        </div>
-                    </fieldset>
+                    <div class="form-step">
+                        <fieldset class="form-fieldset">
+                            <legend>2. Dados do Equipamento</legend>
+                            <div class="grid-col-2" style="gap: 1.5rem;">
+                                <div class="form-group">
+                                    <label><i class='bx bx-devices'></i> Tipo de Equipamento</label>
+                                    <select name="Tipo de Equipamento" required>
+                                        <option value="" disabled selected>Selecione...</option>
+                                        <option value="Computador (Desktop)">Computador (Desktop)</option>
+                                        <option value="Notebook">Notebook</option>
+                                        <option value="Celular">Celular</option>
+                                        <option value="Outro">Outro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class='bx bx-purchase-tag'></i> Marca e Modelo</label>
+                                    <input type="text" name="Marca e Modelo" required placeholder="Ex: Dell Inspiron 15">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class='bx bx-plug'></i> Acessórios Deixados</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="acessorios[]" value="Fonte/Carregador"> Fonte/Carregador</label>
+                                    <label><input type="checkbox" name="acessorios[]" value="Cabo USB"> Cabo USB</label>
+                                    <label><input type="checkbox" name="acessorios[]" value="Mouse"> Mouse</label>
+                                    <label><input type="checkbox" name="acessorios[]" value="Capa/Bolsa"> Capa/Bolsa</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-step">
+                        <fieldset class="form-fieldset">
+                            <legend>3. Descrição do Serviço</legend>
+                            <div class="form-group">
+                                <label><i class='bx bx-wrench'></i> Descreva o Problema</label>
+                                <textarea name="Problema Relatado" rows="5" required placeholder="Descreva com detalhes o que está acontecendo..."></textarea>
+                            </div>
+                        </fieldset>
+                    </div>
                     
-                    <button type="submit" class="btn btn-secondary w-full" style="margin-top: 2rem;">
-                        <i class='bx bx-paper-plane'></i>
-                        Enviar Solicitação de Agendamento
-                    </button>
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-primary" id="prevBtn" style="display: none;">
+                            <i class='bx bx-left-arrow-alt'></i> Voltar
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="nextBtn">
+                            Avançar <i class='bx bx-right-arrow-alt'></i>
+                        </button>
+                    </div>
                 </form>
             </div>
-        </section>
-    </main>
-    
+        </div>
+    </section>
+</main>
+  <!-- Footer -->
     <footer class="footer">
-        </footer>
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Company Info -->
+                <div class="footer-section animate-fade-in">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class='bx bx-chip'></i>
+                        </div>
+                        <div>
+                            <h3>SampTech</h3>
+                            <p>Informática & Reparos</p>
+                        </div>
+                    </div>
+                    <p>
+                        <i class='bx bx-shield-alt-2'></i>
+                        Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
+                    </p>
+                    <div class="social-links">
+                        <a href="#">
+                            <i class='bx bxl-whatsapp'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-instagram'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-facebook'></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-address-card'></i>
+                        Contato
+                    </h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class='bx bx-map'></i>
+                            <span>Rua 9 Quadra 2 Lote 19 Conjunto Morada do Sol</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-phone'></i>
+                            <span>(64) 9 9280-0407</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-envelope'></i>
+                            <span>joaovsampaio.dev@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-time'></i>
+                            <span>Seg - Sex: 9h às 18h</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-cog'></i>
+                        Serviços
+                    </h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-laptop'></i>
+                                Manutenção de Computadores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-mobile-alt'></i>
+                                Reparo de Celulares
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-wifi'></i>
+                                Redes e Wi-Fi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-hdd'></i>
+                                Recuperação de Dados
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-news'></i>
+                        Newsletter
+                    </h4>
+                    <p>
+                        Receba dicas e promoções exclusivas por email.
+                    </p>
+                    <div class="newsletter-form">
+                        <div class="newsletter-input-group">
+                            <input type="email" placeholder="Seu email">
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-paper-plane'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    <i class='bx bx-copyright'></i>
+                    2025 SampTech - Informática & Reparos. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../js/script.js"></script>
 </body>

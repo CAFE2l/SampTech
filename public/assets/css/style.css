@@ -1297,3 +1297,103 @@ select:focus-visible {
 .checkbox-group input[type="checkbox"]:checked::before {
     transform: scale(1);
 }
+
+/* style.css */
+
+/* --- ESTILOS DO FORMULÁRIO MULTI-ETAPAS E NEON --- */
+
+/* EFEITO NEON GIRATÓRIO */
+
+
+/* O card precisa ficar por cima da borda neon */
+.neon-border-box .appointment-card {
+    position: relative;
+    z-index: 2;
+    background: var(--primary-black); /* Cor de fundo sólida para cobrir o gradiente */
+}
+
+/* BARRA DE PROGRESSO */
+.form-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.progress-step {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--tertiary-black);
+    border: 2px solid var(--accent-gray);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--text-tertiary);
+    transition: var(--transition-normal);
+    z-index: 2;
+    position: relative;
+}
+
+.progress-step.active {
+    background: var(--accent-gray);
+    border-color: var(--led-medium);
+    color: var(--text-primary);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow-strong);
+}
+
+.progress-step::after { /* Tooltip com o título da etapa */
+    content: attr(data-title);
+    position: absolute;
+    top: 130%;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.progress-step.active::after {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.form-progress .progress-line {
+    height: 4px;
+    background: var(--tertiary-black);
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 1;
+}
+
+/* ETAPAS DO FORMULÁRIO */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-step {
+    display: none; /* Esconde todas as etapas por padrão */
+    animation: fadeIn 0.5s ease-out;
+}
+
+.form-step.active-step {
+    display: block; /* Mostra apenas a etapa ativa */
+}
+
+/* BOTÕES DE NAVEGAÇÃO */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.form-navigation .btn {
+    min-width: 150px;
+    justify-content: center;
+}
