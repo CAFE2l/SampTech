@@ -1397,3 +1397,77 @@ select:focus-visible {
     min-width: 150px;
     justify-content: center;
 }
+
+/* style.css */
+
+/* --- ESTILOS DO CARD DE DOCUMENTO NA PÁGINA SOBRE --- */
+
+.document-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Espaçamento entre os itens */
+    background: var(--gradient-card);
+    border: 1px solid var(--tertiary-black);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin: 3rem auto; /* Centraliza e adiciona espaço */
+    max-width: 900px;
+    transition: var(--transition-bounce);
+    box-shadow: var(--shadow-md);
+}
+
+.document-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--white-40);
+    box-shadow: var(--shadow-glow-strong);
+}
+
+.document-icon {
+    flex-shrink: 0; /* Impede que o ícone encolha */
+    width: 5rem;
+    height: 5rem;
+    background: var(--secondary-black);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tertiary-black);
+}
+
+.document-icon i {
+    font-size: 2.5rem;
+    color: var(--led-medium);
+}
+
+.document-info {
+    flex-grow: 1; /* Faz esta div ocupar o espaço restante */
+}
+
+.document-info h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+}
+
+.document-info p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.document-card .btn {
+    flex-shrink: 0; /* Impede que o botão encolha */
+}
+
+/* Responsividade para o card de documento em telas pequenas */
+@media (max-width: 768px) {
+    .document-card {
+        flex-direction: column; /* Empilha os itens verticalmente */
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .document-info {
+        margin: 1rem 0;
+    }
+}
