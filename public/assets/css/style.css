@@ -235,6 +235,118 @@ h3 {
     gap: 1rem;
 }
 
+.profile-menu {
+    position: relative; /* Essencial para posicionar o pop-up */
+    margin-left: 1rem; /* Espaçamento dos outros botões */
+}
+
+.profile-pic {
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
+    border-radius: 50%;
+    background: var(--tertiary-black);
+    border: 1px solid var(--accent-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.profile-pic:hover {
+    border-color: var(--white-40);
+    box-shadow: var(--shadow-glow);
+    transform: scale(1.05);
+}
+
+.profile-pic i {
+    font-size: 1.75rem; /* Tamanho do ícone */
+    color: var(--text-secondary);
+}
+
+/* O Pop-up */
+.profile-popup {
+    position: absolute;
+    top: calc(100% + 15px); /* Posiciona abaixo do ícone com um espaço */
+    right: 0;
+    width: 240px;
+    background: var(--secondary-black);
+    border: 1px solid var(--tertiary-black);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 1100;
+    overflow: hidden;
+
+    /* Animação e estado inicial (escondido) */
+    opacity: 0;
+    transform: translateY(10px);
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+/* Estado quando o pop-up está ativo */
+.profile-popup.active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.popup-header {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--tertiary-black);
+}
+
+.username {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.user-email {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+}
+
+.popup-links {
+    list-style: none;
+    padding: 0.5rem 0;
+}
+
+.popup-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+}
+
+.popup-links li a:hover {
+    background-color: var(--tertiary-black);
+    color: var(--text-primary);
+}
+
+.popup-links li a i {
+    font-size: 1.1rem;
+}
+
+.popup-links .separator {
+    height: 1px;
+    background-color: var(--tertiary-black);
+    margin: 0.5rem 0;
+}
+
+.popup-links .logout {
+    color: #ff5555; /* Cor de destaque para a ação de sair */
+}
+
+.popup-links .logout:hover {
+    background-color: rgba(255, 85, 85, 0.1);
+}
+
 /* Banner Principal - Efeito LED Monocromático */
 .banner-section {
     position: relative;
@@ -1100,4 +1212,88 @@ input:focus-visible,
 select:focus-visible {
     outline: 2px solid var(--white-40);
     outline-offset: 2px;
+}
+
+/* style.css */
+
+/* --- ESTILOS ADICIONAIS PARA A PÁGINA DE FORMULÁRIO --- */
+.form-fieldset {
+    border: 1px solid var(--tertiary-black);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-fieldset legend {
+    padding: 0 1rem;
+    margin-left: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: var(--secondary-black);
+    border: 1px solid var(--tertiary-black);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    resize: vertical; /* Permite redimensionar apenas na vertical */
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--white-40);
+    box-shadow: var(--shadow-glow);
+}
+
+.form-group textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 400; /* Peso normal para as opções */
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 1.25em;
+    height: 1.25em;
+    background-color: var(--secondary-black);
+    border: 1px solid var(--tertiary-black);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    display: grid;
+    place-content: center;
+}
+
+.checkbox-group input[type="checkbox"]::before {
+    content: "";
+    width: 0.75em;
+    height: 0.75em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--led-bright);
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
