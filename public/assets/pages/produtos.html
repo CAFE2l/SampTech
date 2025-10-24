@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos Recondicionados - SampTech Informática & Reparos</title>
+    <link rel="shortcut icon" href="/public/assets/img/icon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Estilos específicos para a página de produtos */
+        .products-hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .products-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .products-hero h1 {
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .products-hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .products-section {
+            padding: 4rem 0;
+            background: var(--primary-black);
+        }
+        
+        .products-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-category {
+            padding: 0.75rem 1.25rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-category:hover {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .filter-category.active {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .search-sort {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            width: 250px;
+            transition: var(--transition-normal);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+        
+        .sort-select {
+            padding: 0.75rem 1rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--white-40);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-led);
+            opacity: 0;
+            transition: var(--transition-normal);
+            z-index: 0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-xl), var(--shadow-glow-strong);
+        }
+        
+        .product-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            z-index: 2;
+            transition: var(--transition-normal);
+        }
+        
+        .product-card:hover .product-badge {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .product-image img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        
+        .product-image i {
+            font-size: 3rem;
+            color: var(--text-tertiary);
+        }
+        
+        .product-content {
+            position: relative;
+            z-index: 1;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            transition: var(--transition-normal);
+        }
+        
+        .product-card:hover .product-category {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .product-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.875rem;
+            flex-grow: 1;
+        }
+        
+        .product-condition {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+        
+        .condition-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .condition-excellent {
+            background: #00ff00;
+        }
+        
+        .condition-good {
+            background: #aaff00;
+        }
+        
+        .condition-fair {
+            background: #ffff00;
+        }
+        
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .product-detail i {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+            width: 1rem;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        
+        .price-tag {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .original-price {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .product-actions .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .products-benefits {
+            padding: 5rem 0;
+            background: var(--secondary-black);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1.5rem;
+            transition: var(--transition-normal);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .benefit-icon {
+            width: 4rem;
+            height: 4rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: var(--transition-normal);
+        }
+        
+        .benefit-card:hover .benefit-icon {
+            background: var(--tertiary-black);
+            border-color: var(--white-40);
+            transform: scale(1.05);
+        }
+        
+        .benefit-icon i {
+            font-size: 1.75rem;
+            color: var(--text-secondary);
+            transition: var(--transition-normal);
+        }
+        
+        .benefit-card:hover .benefit-icon i {
+            color: var(--text-primary);
+        }
+        
+        .benefit-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .benefit-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .products-process {
+            padding: 5rem 0;
+            background: var(--primary-black);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 2rem;
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1.5rem;
+            transition: var(--transition-normal);
+        }
+        
+        .process-step:hover {
+            transform: translateY(-5px);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            transition: var(--transition-normal);
+        }
+        
+        .process-step:hover .step-number {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .step-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .products-cta {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .pagination-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-normal);
+        }
+        
+        .pagination-btn:hover {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .pagination-btn.active {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-categories {
+                justify-content: center;
+            }
+            
+            .search-sort {
+                flex-direction: column;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- Logo -->
+            <a href="./index.html" class="logo">
+                <div class="logo-icon">
+                    <i class='bx bx-chip' style="color: white;"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">SampTech</div>
+                    <div class="logo-subtitle">Informática & Reparos</div>
+                </div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="./index.html" class="nav-link">Início</a></li>
+                <li><a href="./servicos.html" class="nav-link">Serviços</a></li>
+                <li><a href="#" class="nav-link active">Produtos</a></li>
+                <li><a href="./assets/pages/sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="#" class="nav-link">Contato</a></li>
+            </ul>
+            
+            <!-- CTA Buttons & User Menu -->
+            <div class="nav-actions">
+                <button class="btn btn-primary">
+                    <i class='bx bx-phone'></i>
+                    <span>(64) 9 9280-0407</span>
+                </button>
+                <a href="./assets/pages/formulario.html" class="btn btn-secondary">
+                    <i class='bx bx-calendar'></i>
+                    <span>Agendar</span>
+                </a>
+                <div class="profile-menu">
+                    <div class="profile-pic" id="profile-pic">
+                        <i class='bx bxs-user-circle'></i>
+                    </div>
+                    
+                    <div class="profile-popup" id="profile-popup">
+                        <div class="popup-header">
+                            <span class="username">Visitante</span>
+                            <small class="user-email">email@exemplo.com</small>
+                        </div>
+                        <ul class="popup-links">
+                            <li><a href="#"><i class='bx bx-user'></i> Meu Perfil</a></li>
+                            <li><a href="#"><i class='bx bx-cog'></i> Configurações</a></li>
+                            <li class="separator"></li>
+                            <li><a href="#" class="logout"><i class='bx bx-log-out'></i> Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Products Hero Section -->
+    <section class="products-hero">
+        <div class="container">
+            <h1 class="gradient-text">Produtos Recondicionados</h1>
+            <p>Eletrônicos restaurados com qualidade e garantia. Economize sem abrir mão da performance!</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-filters">
+                <div class="filter-categories" id="filter-categories">
+                    <div class="filter-category active" data-category="all">
+                        <i class='bx bx-grid-alt'></i>
+                        Todos
+                    </div>
+                    <div class="filter-category" data-category="smartphones">
+                        <i class='bx bx-mobile-alt'></i>
+                        Celulares
+                    </div>
+                    <div class="filter-category" data-category="consoles">
+                        <i class='bx bx-game'></i>
+                        Consoles
+                    </div>
+                    <div class="filter-category" data-category="computers">
+                        <i class='bx bx-laptop'></i>
+                        Computadores
+                    </div>
+                    <div class="filter-category" data-category="tablets">
+                        <i class='bx bx-table'></i>
+                        Tablets
+                    </div>
+                </div>
+                
+                <div class="search-sort">
+                    <div class="search-box">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Buscar produtos..." id="search-input">
+                    </div>
+                    <select class="sort-select" id="sort-select">
+                        <option value="newest">Mais Recentes</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                        <option value="name">Ordem Alfabética</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="products-grid" id="products-container">
+                <!-- Product Card 1 -->
+                <div class="product-card" data-category="smartphones">
+                    <div class="product-badge">-40%</div>
+                    <div class="product-image">
+                        <i class='bx bx-mobile-alt'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Smartphone</span>
+                        <h3 class="product-title">iPhone X 64GB</h3>
+                        <p class="product-description">iPhone X recondicionado com tela OLED de 5.8", Face ID e câmera dupla. Perfeito estado.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-excellent"></div>
+                            <span>Estado: Excelente</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-memory-card'></i>
+                                <span>64GB de Armazenamento</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-battery'></i>
+                                <span>Bateria 90% saúde</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 6 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 2.200</span>
+                                <span class="price-tag">R$ 1.320</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 2 -->
+                <div class="product-card" data-category="consoles">
+                    <div class="product-badge">-35%</div>
+                    <div class="product-image">
+                        <i class='bx bx-game'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Console</span>
+                        <h3 class="product-title">PlayStation 4 Slim 1TB</h3>
+                        <p class="product-description">PS4 Slim recondicionado com 1TB, 1 controle DualShock 4 e todos os cabos. Testado e funcionando perfeitamente.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-good"></div>
+                            <span>Estado: Muito Bom</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-hdd'></i>
+                                <span>1TB de Armazenamento</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-wifi'></i>
+                                <span>Wi-Fi e Bluetooth</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 3 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 1.800</span>
+                                <span class="price-tag">R$ 1.170</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 3 -->
+                <div class="product-card" data-category="computers">
+                    <div class="product-badge">-50%</div>
+                    <div class="product-image">
+                        <i class='bx bx-laptop'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Notebook</span>
+                        <h3 class="product-title">Dell Inspiron 15 3000</h3>
+                        <p class="product-description">Notebook recondicionado com Intel i5, 8GB RAM, SSD 256GB. Ideal para trabalho e estudos.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-good"></div>
+                            <span>Estado: Muito Bom</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-chip'></i>
+                                <span>Intel i5 8ª Geração</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-memory-card'></i>
+                                <span>8GB RAM + SSD 256GB</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 6 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 2.500</span>
+                                <span class="price-tag">R$ 1.250</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 4 -->
+                <div class="product-card" data-category="smartphones">
+                    <div class="product-badge">-30%</div>
+                    <div class="product-image">
+                        <i class='bx bx-mobile-alt'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Smartphone</span>
+                        <h3 class="product-title">Samsung Galaxy S20 FE</h3>
+                        <p class="product-description">Galaxy S20 FE recondicionado com câmera tripla, 128GB e bateria nova. Performance excelente.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-excellent"></div>
+                            <span>Estado: Excelente</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-memory-card'></i>
+                                <span>128GB de Armazenamento</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-battery'></i>
+                                <span>Bateria nova (100%)</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 6 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 1.800</span>
+                                <span class="price-tag">R$ 1.260</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 5 -->
+                <div class="product-card" data-category="tablets">
+                    <div class="product-badge">-45%</div>
+                    <div class="product-image">
+                        <i class='bx bx-table'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Tablet</span>
+                        <h3 class="product-title">iPad Air 4 64GB</h3>
+                        <p class="product-description">iPad Air 4 recondicionado com tela Liquid Retina de 10.9", A14 Bionic e suporte à Apple Pencil.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-good"></div>
+                            <span>Estado: Muito Bom</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-memory-card'></i>
+                                <span>64GB de Armazenamento</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-battery'></i>
+                                <span>Bateria 85% saúde</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 6 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 3.200</span>
+                                <span class="price-tag">R$ 1.760</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Card 6 -->
+                <div class="product-card" data-category="consoles">
+                    <div class="product-badge">-25%</div>
+                    <div class="product-image">
+                        <i class='bx bx-game'></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">Console</span>
+                        <h3 class="product-title">Nintendo Switch V1</h3>
+                        <p class="product-description">Nintendo Switch recondicionado com Joy-Cons, dock e todos os cabos. Testado e funcionando perfeitamente.</p>
+                        
+                        <div class="product-condition">
+                            <div class="condition-dot condition-fair"></div>
+                            <span>Estado: Bom</span>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-detail">
+                                <i class='bx bx-memory-card'></i>
+                                <span>32GB + Slot para cartão</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-tv'></i>
+                                <span>Modo TV e Portátil</span>
+                            </div>
+                            <div class="product-detail">
+                                <i class='bx bx-calendar'></i>
+                                <span>Garantia: 3 meses</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-price">
+                            <div>
+                                <span class="original-price">R$ 2.000</span>
+                                <span class="price-tag">R$ 1.500</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary">
+                                    <i class='bx bx-cart'></i>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class='bx bx-info-circle'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <a href="#" class="pagination-btn active">1</a>
+                <a href="#" class="pagination-btn">2</a>
+                <a href="#" class="pagination-btn">3</a>
+                <a href="#" class="pagination-btn">
+                    <i class='bx bx-chevron-right'></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="products-benefits">
+        <div class="container">
+            <div class="text-center mb-8 animate-slide-up">
+                <h2 class="gradient-text mb-4">Vantagens dos Produtos Recondicionados</h2>
+                <p>Por que escolher nossos produtos recondicionados?</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card animate-slide-up">
+                    <div class="benefit-icon">
+                        <i class='bx bx-dollar-circle'></i>
+                    </div>
+                    <h3 class="benefit-title">Economia</h3>
+                    <p class="benefit-description">Produtos com até 50% de desconto em relação ao preço de um produto novo, com a mesma qualidade.</p>
+                </div>
+                
+                <div class="benefit-card animate-slide-up">
+                    <div class="benefit-icon">
+                        <i class='bx bx-shield-alt-2'></i>
+                    </div>
+                    <h3 class="benefit-title">Garantia</h3>
+                    <p class="benefit-description">Todos os nossos produtos recondicionados possuem garantia que varia de 3 a 6 meses.</p>
+                </div>
+                
+                <div class="benefit-card animate-slide-up">
+                    <div class="benefit-icon">
+                        <i class='bx bx-recycle'></i>
+                    </div>
+                    <h3 class="benefit-title">Sustentabilidade</h3>
+                    <p class="benefit-description">Ao comprar recondicionado, você contribui para reduzir o lixo eletrônico e preservar o meio ambiente.</p>
+                </div>
+                
+                <div class="benefit-card animate-slide-up">
+                    <div class="benefit-icon">
+                        <i class='bx bx-check-shield'></i>
+                    </div>
+                    <h3 class="benefit-title">Qualidade Testada</h3>
+                    <p class="benefit-description">Todos os produtos passam por rigorosos testes de qualidade antes de serem disponibilizados para venda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="products-process">
+        <div class="container">
+            <div class="text-center mb-8 animate-slide-up">
+                <h2 class="gradient-text mb-4">Nosso Processo de Recondicionamento</h2>
+                <p>Como transformamos produtos com defeito em equipamentos confiáveis</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Aquisição</h3>
+                    <p class="step-description">Selecionamos cuidadosamente produtos com defeito de fornecedores confiáveis.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Diagnóstico</h3>
+                    <p class="step-description">Realizamos um diagnóstico completo para identificar todos os problemas do equipamento.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Reparo</h3>
+                    <p class="step-description">Substituímos peças defeituosas e realizamos todos os reparos necessários com peças de qualidade.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Testes</h3>
+                    <p class="step-description">Testamos rigorosamente todas as funcionalidades para garantir o perfeito funcionamento.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Limpeza e Embalagem</h3>
+                    <p class="step-description">Realizamos limpeza completa e embalamos o produto para entrega com todos os acessórios necessários.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="products-cta">
+        <div class="container">
+            <div class="cta-content animate-slide-up">
+                <h2 class="gradient-text mb-4">Interessado em nossos produtos?</h2>
+                <p class="mb-6">Entre em contato para mais informações sobre disponibilidade, condições de pagamento ou para agendar uma visita.</p>
+                <div class="cta-buttons">
+                    <a href="https://wa.me/5564992800407" class="btn btn-primary" target="_blank">
+                        <i class='bx bxl-whatsapp'></i>
+                        Falar no WhatsApp
+                    </a>
+                    <a href="tel:5564992800407" class="btn btn-secondary">
+                        <i class='bx bx-phone'></i>
+                        Ligar Agora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Company Info -->
+                <div class="footer-section animate-fade-in">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class='bx bx-chip'></i>
+                        </div>
+                        <div>
+                            <h3>SampTech</h3>
+                            <p>Informática & Reparos</p>
+                        </div>
+                    </div>
+                    <p>
+                        <i class='bx bx-shield-alt-2'></i>
+                        Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
+                    </p>
+                    <div class="social-links">
+                        <a href="#">
+                            <i class='bx bxl-whatsapp'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-instagram'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-facebook'></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-address-card'></i>
+                        Contato
+                    </h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class='bx bx-map'></i>
+                            <span>Rua 9 Quadra 2 Lote 19 Conjunto Morada do Sol</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-phone'></i>
+                            <span>(64) 9 9280-0407</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-envelope'></i>
+                            <span>joaovsampaio.dev@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-time'></i>
+                            <span>Seg - Sex: 9h às 18h</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-cog'></i>
+                        Serviços
+                    </h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-laptop'></i>
+                                Manutenção de Computadores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-mobile-alt'></i>
+                                Reparo de Celulares
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-wifi'></i>
+                                Redes e Wi-Fi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-hdd'></i>
+                                Recuperação de Dados
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-news'></i>
+                        Newsletter
+                    </h4>
+                    <p>
+                        Receba dicas e promoções exclusivas por email.
+                    </p>
+                    <div class="newsletter-form">
+                        <div class="newsletter-input-group">
+                            <input type="email" placeholder="Seu email">
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-paper-plane'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    <i class='bx bx-copyright'></i>
+                    2025 SampTech - Informática & Reparos. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para funcionalidades da página de produtos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filtro de categorias
+            const filterCategories = document.querySelectorAll('.filter-category');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            filterCategories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Remove active class from all categories
+                    filterCategories.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked category
+                    this.classList.add('active');
+                    
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Show/hide product cards based on category
+                    productCards.forEach(card => {
+                        if (selectedCategory === 'all' || card.getAttribute('data-category') === selectedCategory) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                productCards.forEach(card => {
+                    const title = card.querySelector('.product-title').textContent.toLowerCase();
+                    const description = card.querySelector('.product-description').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Sort functionality
+            const sortSelect = document.getElementById('sort-select');
+            
+            sortSelect.addEventListener('change', function() {
+                // This would typically involve more complex sorting logic
+                // For now, we'll just show a message
+                console.log('Sorting by:', this.value);
+            });
+            
+            // Profile Menu Toggle
+            const profilePic = document.getElementById('profile-pic');
+            const profilePopup = document.getElementById('profile-popup');
+            
+            if (profilePic && profilePopup) {
+                profilePic.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profilePopup.classList.toggle('active');
+                });
+                
+                // Close popup when clicking outside
+                document.addEventListener('click', function() {
+                    profilePopup.classList.remove('active');
+                });
+                
+                // Prevent popup from closing when clicking inside
+                profilePopup.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Add to cart functionality
+            const addToCartButtons = document.querySelectorAll('.btn-primary');
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const productTitle = productCard.querySelector('.product-title').textContent;
+                    
+                    // Show success message
+                    alert(`${productTitle} adicionado ao carrinho!`);
+                    
+                    // Here you would typically add the product to a shopping cart
+                });
+            });
+            
+            // Product detail buttons
+            const detailButtons = document.querySelectorAll('.btn-secondary');
+            
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const productTitle = productCard.querySelector('.product-title').textContent;
+                    
+                    // Here you would typically show a product detail modal
+                    alert(`Mostrando detalhes de: ${productTitle}`);
+                });
+            });
+            
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('.product-card, .benefit-card, .process-step').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
