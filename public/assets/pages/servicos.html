@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - SampTech Informática & Reparos</title>
+    <link rel="shortcut icon" href="/public/assets/img/icon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Estilos específicos para a página de serviços */
+        .services-hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .services-hero h1 {
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .services-hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .services-categories {
+            padding: 4rem 0;
+            background: var(--primary-black);
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .category-tab {
+            padding: 1rem 1.5rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .category-tab:hover {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .category-tab.active {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card-detailed {
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-card-detailed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-led);
+            opacity: 0;
+            transition: var(--transition-normal);
+            z-index: 0;
+        }
+        
+        .service-card-detailed:hover {
+            transform: translateY(-8px);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-xl), var(--shadow-glow-strong);
+        }
+        
+        .service-card-detailed:hover::before {
+            opacity: 0.05;
+        }
+        
+        .service-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .service-icon-large {
+            width: 4rem;
+            height: 4rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-normal);
+        }
+        
+        .service-card-detailed:hover .service-icon-large {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--tertiary-black);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--white-40);
+        }
+        
+        .service-icon-large i {
+            font-size: 1.75rem;
+            color: var(--text-secondary);
+            transition: var(--transition-normal);
+        }
+        
+        .service-card-detailed:hover .service-icon-large i {
+            color: var(--text-primary);
+        }
+        
+        .service-price {
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: var(--transition-normal);
+        }
+        
+        .service-card-detailed:hover .service-price {
+            background: var(--tertiary-black);
+            border-color: var(--white-40);
+        }
+        
+        .service-content {
+            position: relative;
+            z-index: 1;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .service-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        .service-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .service-feature i {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+        }
+        
+        .service-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+        }
+        
+        .service-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .service-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+        
+        .service-duration i {
+            font-size: 1rem;
+        }
+        
+        .services-process {
+            padding: 5rem 0;
+            background: var(--secondary-black);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 2rem;
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1.5rem;
+            transition: var(--transition-normal);
+        }
+        
+        .process-step:hover {
+            transform: translateY(-5px);
+            border-color: var(--white-40);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            background: var(--secondary-black);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            transition: var(--transition-normal);
+        }
+        
+        .process-step:hover .step-number {
+            background: var(--tertiary-black);
+            color: var(--text-primary);
+            border-color: var(--white-40);
+        }
+        
+        .step-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .services-faq {
+            padding: 5rem 0;
+            background: var(--primary-black);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: var(--gradient-card);
+            border: 1px solid var(--tertiary-black);
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition-normal);
+        }
+        
+        .faq-item:hover {
+            border-color: var(--white-40);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition-normal);
+        }
+        
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .faq-icon {
+            transition: var(--transition-normal);
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition-normal);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        .services-cta {
+            padding: 5rem 0;
+            background: var(--gradient-primary);
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-actions {
+                flex-direction: column;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-tab {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- Logo -->
+            <a href="./index.html" class="logo">
+                <div class="logo-icon">
+                    <i class='bx bx-chip' style="color: white;"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">SampTech</div>
+                    <div class="logo-subtitle">Informática & Reparos</div>
+                </div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links">
+                <li><a href="./index.html" class="nav-link">Início</a></li>
+                <li><a href="#" class="nav-link active">Serviços</a></li>
+                <li><a href="#" class="nav-link">Produtos</a></li>
+                <li><a href="./assets/pages/sobre.html" class="nav-link">Sobre</a></li>
+                <li><a href="#" class="nav-link">Contato</a></li>
+            </ul>
+            
+            <!-- CTA Buttons & User Menu -->
+            <div class="nav-actions">
+                <button class="btn btn-primary">
+                    <i class='bx bx-phone'></i>
+                    <span>(64) 9 9280-0407</span>
+                </button>
+                <a href="./assets/pages/formulario.html" class="btn btn-secondary">
+                    <i class='bx bx-calendar'></i>
+                    <span>Agendar</span>
+                </a>
+                <div class="profile-menu">
+                    <div class="profile-pic" id="profile-pic">
+                        <i class='bx bxs-user-circle'></i>
+                    </div>
+                    
+                    <div class="profile-popup" id="profile-popup">
+                        <div class="popup-header">
+                            <span class="username">Visitante</span>
+                            <small class="user-email">email@exemplo.com</small>
+                        </div>
+                        <ul class="popup-links">
+                            <li><a href="#"><i class='bx bx-user'></i> Meu Perfil</a></li>
+                            <li><a href="#"><i class='bx bx-cog'></i> Configurações</a></li>
+                            <li class="separator"></li>
+                            <li><a href="#" class="logout"><i class='bx bx-log-out'></i> Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Hero Section -->
+    <section class="services-hero">
+        <div class="container">
+            <h1 class="gradient-text">Nossos Serviços</h1>
+            <p>Oferecemos soluções completas em informática e reparos com qualidade, agilidade e garantia. Confira nossos serviços especializados.</p>
+        </div>
+    </section>
+
+    <!-- Services Categories -->
+    <section class="services-categories">
+        <div class="container">
+            <div class="category-tabs" id="category-tabs">
+                <div class="category-tab active" data-category="all">
+                    <i class='bx bx-grid-alt'></i>
+                    Todos os Serviços
+                </div>
+                <div class="category-tab" data-category="computers">
+                    <i class='bx bx-laptop'></i>
+                    Computadores
+                </div>
+                <div class="category-tab" data-category="mobile">
+                    <i class='bx bx-mobile-alt'></i>
+                    Celulares
+                </div>
+                <div class="category-tab" data-category="network">
+                    <i class='bx bx-wifi'></i>
+                    Redes
+                </div>
+                <div class="category-tab" data-category="data">
+                    <i class='bx bx-hdd'></i>
+                    Dados
+                </div>
+            </div>
+            
+            <div class="services-grid" id="services-container">
+                <!-- Service Card 1 -->
+                <div class="service-card-detailed" data-category="computers">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-laptop'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 80</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Manutenção de Computadores</h3>
+                        <p class="service-description">Limpeza interna, troca de pasta térmica, diagnóstico completo e otimização do sistema para melhor desempenho.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Limpeza completa interna e externa</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Troca de pasta térmica</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Diagnóstico de hardware</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Otimização do sistema</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 1-2 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="service-card-detailed" data-category="computers">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-chip'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 150</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Upgrade de Hardware</h3>
+                        <p class="service-description">Instalação de memória RAM, SSD, processadores e outros componentes para melhorar o desempenho do seu equipamento.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Instalação de memória RAM</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Troca por SSD</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Atualização de processador</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Instalação de placa de vídeo</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 1-3 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="service-card-detailed" data-category="mobile">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-mobile-alt'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 120</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Troca de Tela de Celular</h3>
+                        <p class="service-description">Substituição profissional de telas quebradas de smartphones, com peças de qualidade e garantia no serviço.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Telas originais e de qualidade</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Proteção de dados durante o reparo</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Teste de funcionalidades</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Garantia de 90 dias</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 1-2 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="service-card-detailed" data-category="mobile">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-battery'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 100</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Troca de Bateria</h3>
+                        <p class="service-description">Substituição de baterias com baixa autonomia por novas, garantindo maior duração e segurança para seu dispositivo.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Baterias de alta capacidade</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Teste de autonomia</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Calibração da bateria</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Garantia de 6 meses</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 30-60 minutos</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="service-card-detailed" data-category="network">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-wifi'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 200</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Configuração de Rede Wi-Fi</h3>
+                        <p class="service-description">Instalação e configuração de roteadores, extensores de sinal e otimização para melhor cobertura e velocidade.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Análise de cobertura</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Configuração de roteador</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Otimização de canais</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Segurança da rede</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 1-2 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="service-card-detailed" data-category="data">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-hdd'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 300</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Recuperação de Dados</h3>
+                        <p class="service-description">Recuperação de arquivos, fotos e documentos de HDs, SSDs, pen drives e cartões de memória corrompidos ou danificados.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>HDs, SSDs e dispositivos USB</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Exclusão acidental</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Danos físicos e lógicos</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Formatação e partições</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração: variável (análise prévia)</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 7 -->
+                <div class="service-card-detailed" data-category="computers">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-windows'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 100</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Formatação e Instalação</h3>
+                        <p class="service-description">Formatação completa, instalação do Windows, drivers e programas essenciais, com backup dos seus dados importantes.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Backup de dados</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Instalação do Windows</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Drivers atualizados</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Pacote Office e antivírus</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 2-3 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 8 -->
+                <div class="service-card-detailed" data-category="network">
+                    <div class="service-header">
+                        <div class="service-icon-large">
+                            <i class='bx bx-shield-quarter'></i>
+                        </div>
+                        <div class="service-price">A partir de R$ 150</div>
+                    </div>
+                    <div class="service-content">
+                        <h3 class="service-title">Segurança Digital</h3>
+                        <p class="service-description">Proteção contra vírus, malware e ataques cibernéticos com instalação de antivírus e configurações de segurança.</p>
+                        <div class="service-features">
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Remoção de vírus e malware</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Instalação de antivírus</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Configurações de firewall</span>
+                            </div>
+                            <div class="service-feature">
+                                <i class='bx bx-check'></i>
+                                <span>Orientação de segurança</span>
+                            </div>
+                        </div>
+                        <div class="service-duration">
+                            <i class='bx bx-time'></i>
+                            <span>Duração média: 1-2 horas</span>
+                        </div>
+                        <div class="service-actions">
+                            <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                                <i class='bx bx-calendar'></i>
+                                Agendar
+                            </a>
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-info-circle'></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="services-process">
+        <div class="container">
+            <div class="text-center mb-8 animate-slide-up">
+                <h2 class="gradient-text mb-4">Como Funciona</h2>
+                <p>Nosso processo é simples, rápido e transparente para garantir a melhor experiência</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Agendamento</h3>
+                    <p class="step-description">Entre em contato por telefone, WhatsApp ou preencha nosso formulário online para agendar sua visita.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Diagnóstico</h3>
+                    <p class="step-description">Fazemos uma avaliação completa do problema e fornecemos um orçamento detalhado sem compromisso.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Execução</h3>
+                    <p class="step-description">Realizamos o serviço com qualidade, utilizando peças de procedência e ferramentas adequadas.</p>
+                </div>
+                
+                <div class="process-step animate-slide-up">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Entrega</h3>
+                    <p class="step-description">Apresentamos o equipamento testado e funcionando, com todas as orientações necessárias e garantia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="services-faq">
+        <div class="container">
+            <div class="text-center mb-8 animate-slide-up">
+                <h2 class="gradient-text mb-4">Perguntas Frequentes</h2>
+                <p>Tire suas dúvidas sobre nossos serviços e processos</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item animate-slide-up">
+                    <div class="faq-question">
+                        <span>Quanto tempo leva para um reparo de celular?</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O tempo varia de acordo com o serviço e disponibilidade das peças. Troca de tela geralmente leva de 1 a 2 horas, enquanto reparos mais complexos podem levar até 24 horas. Sempre informamos o prazo estimado durante o diagnóstico.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-slide-up">
+                    <div class="faq-question">
+                        <span>Vocês dão garantia nos serviços?</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, todos os nossos serviços possuem garantia. A duração varia de acordo com o tipo de serviço: manutenção preventiva (30 dias), reparos (90 dias) e troca de peças (até 6 meses para algumas peças). A garantia cobre defeitos de mão de obra e peças com problemas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-slide-up">
+                    <div class="faq-question">
+                        <span>Preciso deixar meu equipamento na loja?</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Depende do serviço. Para diagnósticos rápidos e reparos simples, você pode aguardar no local. Para serviços mais complexos que exigem mais tempo, recomendamos deixar o equipamento. Oferecemos também serviço de retirada e entrega em domicílio para sua comodidade.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-slide-up">
+                    <div class="faq-question">
+                        <span>Vocês trabalham com peças originais?</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Trabalhamos com peças originais quando disponíveis e também com peças de qualidade equivalente (genuínas) que oferecem o mesmo desempenho com custo-benefício melhor. Sempre informamos as opções disponíveis e suas diferenças antes de realizar qualquer serviço.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-slide-up">
+                    <div class="faq-question">
+                        <span>Como funciona a recuperação de dados?</span>
+                        <i class='bx bx-chevron-down faq-icon'></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Primeiro fazemos uma avaliação gratuita do dispositivo para verificar a possibilidade de recuperação. Se for possível, apresentamos um orçamento. Só cobramos se conseguirmos recuperar os dados. A taxa de sucesso varia conforme o tipo e gravidade do dano no dispositivo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="services-cta">
+        <div class="container">
+            <div class="cta-content animate-slide-up">
+                <h2 class="gradient-text mb-4">Pronto para resolver seu problema?</h2>
+                <p class="mb-6">Entre em contato conosco e agende uma visita. Nossa equipe está pronta para ajudar!</p>
+                <div class="cta-buttons">
+                    <a href="./assets/pages/formulario.html" class="btn btn-primary">
+                        <i class='bx bx-calendar'></i>
+                        Agendar Serviço
+                    </a>
+                    <a href="https://wa.me/5564992800407" class="btn btn-secondary" target="_blank">
+                        <i class='bx bxl-whatsapp'></i>
+                        Falar no WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Company Info -->
+                <div class="footer-section animate-fade-in">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class='bx bx-chip'></i>
+                        </div>
+                        <div>
+                            <h3>SampTech</h3>
+                            <p>Informática & Reparos</p>
+                        </div>
+                    </div>
+                    <p>
+                        <i class='bx bx-shield-alt-2'></i>
+                        Especialistas em reparo e manutenção de equipamentos eletrônicos com qualidade e garantia.
+                    </p>
+                    <div class="social-links">
+                        <a href="#">
+                            <i class='bx bxl-whatsapp'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-instagram'></i>
+                        </a>
+                        <a href="#">
+                            <i class='bx bxl-facebook'></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-address-card'></i>
+                        Contato
+                    </h4>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class='bx bx-map'></i>
+                            <span>Rua 9 Quadra 2 Lote 19 Conjunto Morada do Sol</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-phone'></i>
+                            <span>(64) 9 9280-0407</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-envelope'></i>
+                            <span>joaovsampaio.dev@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bx-time'></i>
+                            <span>Seg - Sex: 9h às 18h</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-cog'></i>
+                        Serviços
+                    </h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-laptop'></i>
+                                Manutenção de Computadores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-mobile-alt'></i>
+                                Reparo de Celulares
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-wifi'></i>
+                                Redes e Wi-Fi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-hdd'></i>
+                                Recuperação de Dados
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="footer-section animate-fade-in">
+                    <h4>
+                        <i class='bx bx-news'></i>
+                        Newsletter
+                    </h4>
+                    <p>
+                        Receba dicas e promoções exclusivas por email.
+                    </p>
+                    <div class="newsletter-form">
+                        <div class="newsletter-input-group">
+                            <input type="email" placeholder="Seu email">
+                            <button class="btn btn-secondary">
+                                <i class='bx bx-paper-plane'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    <i class='bx bx-copyright'></i>
+                    2025 SampTech - Informática & Reparos. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para funcionalidades da página de serviços
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filtro de categorias
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const serviceCards = document.querySelectorAll('.service-card-detailed');
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Show/hide service cards based on category
+                    serviceCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', function() {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Profile Menu Toggle
+            const profilePic = document.getElementById('profile-pic');
+            const profilePopup = document.getElementById('profile-popup');
+            
+            if (profilePic && profilePopup) {
+                profilePic.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profilePopup.classList.toggle('active');
+                });
+                
+                // Close popup when clicking outside
+                document.addEventListener('click', function() {
+                    profilePopup.classList.remove('active');
+                });
+                
+                // Prevent popup from closing when clicking inside
+                profilePopup.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('.service-card-detailed, .process-step, .faq-item').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
