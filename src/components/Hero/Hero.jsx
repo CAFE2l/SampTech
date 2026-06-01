@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import PresentationNav from '../PresentationNav/PresentationNav'
 
 export default function Hero() {
-  return <section id="inicio" className="relative isolate min-h-screen overflow-hidden bg-[#020617]" aria-label="Samptech Informática">
+  return <section id="inicio" className="relative isolate min-h-screen snap-start overflow-hidden bg-[#020617]" aria-label="Samptech Informática">
     <motion.div initial={{ opacity: 0, scale: .97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} className="absolute inset-0 bg-[url('/imgs/banner_site.png')] bg-cover bg-center" />
     <div className="absolute inset-0 bg-black/15" />
     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,.55)_0%,rgba(2,6,23,.08)_24%,rgba(2,6,23,.04)_58%,rgba(2,6,23,.82)_100%)]" />

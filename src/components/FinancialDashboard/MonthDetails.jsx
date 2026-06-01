@@ -1,0 +1,8 @@
+import { motion } from 'framer-motion'
+
+const money = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
+export default function MonthDetails({ data }) {
+  const biggestExpense = [...data.variableItems, ...data.fixedItems].sort((a, b) => b.value - a.value)[0]
+  const bestService = [...data.revenueItems].sort((a, b) => b.value - a.value)[0]
+  return <motion.aside key={data.month} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl"><p className="eyebrow">Resumo selecionado</p><h3 className="mt-3 font-display text-2xl font-bold">{data.month}</h3><dl className="mt-6 grid gap-4 text-sm"><div><dt className="text-slate-400">Receita do mês</dt><dd className="mt-1 text-lg text-blue-200">{money(data.revenue)}</dd></div><div><dt className="text-slate-400">Despesas totais</dt><dd className="mt-1 text-lg">{money(data.fixed + data.variable)}</dd></div><div><dt className="text-slate-400">Lucro líquido</dt><dd className="mt-1 text-lg text-blue-200">{money(data.profit)}</dd></div><div><dt className="text-slate-400">Margem</dt><dd className="mt-1 text-lg">{Math.round((data.profit / data.revenue) * 100)}%</dd></div></dl><div className="mt-6 border-t border-white/10 pt-4 text-sm leading-6 text-slate-300"><p><b className="text-white">Serviço destaque:</b> {bestService.name}</p><p><b className="text-white">Maior despesa:</b> {biggestExpense.name}</p><p className="mt-3 text-slate-400">{data.month} manteve margem positiva com crescimento de serviços e controle de custos.</p></div></motion.aside>
+}
