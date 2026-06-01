@@ -1,0 +1,4 @@
+.section { background: rgba(255,255,255,.015); }.grid { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }.grid article { flex: 1; padding-top: 22px; border-top: 1px solid var(--border); }
+.grid svg { width: 26px; color: var(--color-accent-hover); stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.grid h3 { margin: 24px 0 9px; font-size: 1.15rem; }.grid p { max-width: 330px; margin: 0; color: var(--color-text-muted); font-size: .92rem; }
+@media (min-width: 768px) { .grid { flex-direction: row; gap: 36px; } }

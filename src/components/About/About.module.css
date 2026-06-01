@@ -1,0 +1,10 @@
+.layout { display: grid; gap: 42px; }
+.layout blockquote { max-width: 570px; margin: 30px 0 0; padding-left: 22px; border-left: 2px solid var(--color-accent-hover); color: var(--color-text-muted); font-size: 1.12rem; }
+.facts { display: grid; gap: 12px; margin: 30px 0 0; }.facts div { padding-top: 10px; border-top: 1px solid var(--color-surface-2); }.facts dt { color: var(--color-accent-hover); font: 500 .67rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }.facts dd { margin: 5px 0 0; color: var(--color-text-muted); font-size: .85rem; }
+.grid { display: grid; gap: 12px; }
+.card { padding: 22px; border: 1px solid var(--border); border-top: 2px solid transparent; background: var(--color-surface); transition: .25s; }
+.card:hover { transform: translateY(-4px); border-top-color: var(--color-accent); }
+.card svg { width: 23px; color: var(--color-accent-hover); stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.card h3 { margin: 18px 0 8px; font-size: 1.08rem; }.card p { margin-bottom: 0; color: var(--color-text-muted); font-size: .9rem; }
+@media (min-width: 650px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .layout { grid-template-columns: 1fr 1.15fr; align-items: center; } }

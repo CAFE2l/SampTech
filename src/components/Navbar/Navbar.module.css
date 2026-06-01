@@ -1,0 +1,16 @@
+.header { position: fixed; inset: 0 0 auto; z-index: 10; border-bottom: 1px solid transparent; transition: .25s; }
+.scrolled { background: rgba(10,10,10,.92); border-color: var(--border); backdrop-filter: blur(12px); }
+.nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; }
+.toggle { display: grid; gap: 5px; padding: 8px; border: 0; background: transparent; cursor: pointer; }
+.toggle span { display: block; width: 24px; height: 2px; background: var(--color-text); }
+.menu { display: none; }
+.open { position: absolute; display: flex; flex-direction: column; inset: 72px 0 auto; padding: 18px 20px 22px; gap: 14px; background: rgba(10,10,10,.98); border-bottom: 1px solid var(--border); }
+.menu button { border: 0; background: transparent; text-align: left; cursor: pointer; transition: color .2s; }
+.menu button:hover { color: var(--color-accent-hover); }
+.cta { padding: 10px 15px; border-radius: 6px; background: var(--color-accent); font-size: .9rem; text-align: center; transition: background .2s; }
+.cta:hover { background: var(--color-accent-hover); }
+@media (min-width: 820px) {
+  .toggle { display: none; }
+  .menu { display: flex; align-items: center; gap: 28px; }
+  .menu button { color: var(--color-text-muted); font-size: .88rem; }
+}
