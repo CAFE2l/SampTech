@@ -1,22 +1,7 @@
-import styles from './Contact.module.css'
+import { motion } from 'framer-motion'
 
 export default function Contact() {
-  return (
-    <section className={`section ${styles.section}`} id="contato">
-      <div className={`container ${styles.content}`}>
-        <p className="eyebrow">Contato direto</p>
-        <h2>Precisa de ajuda com seu equipamento?</h2>
-        <p>Fale com a gente agora mesmo pelo WhatsApp.</p>
-        <a className={styles.whatsapp} href="https://wa.me/5541996713782" target="_blank" rel="noreferrer">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.6 3.4A11 11 0 0 0 3.3 16.7L2 22l5.4-1.3A11 11 0 0 0 20.6 3.4Z" /><path d="M8.2 7.5c.3-.4.5-.4.8-.4h.5c.2 0 .4.1.5.4l.8 1.8c.1.3.1.5-.1.7l-.6.8c.7 1.4 1.8 2.5 3.2 3.1l.8-.9c.2-.2.5-.3.7-.1l1.8.8c.3.1.4.3.4.6v.5c0 .4-.1.7-.4 1-1.4 1.2-3.9.1-5.7-.9-1.3-.7-2.7-2-3.5-3.1-1.2-1.7-2-3.4-1.1-4.7Z" /></svg>
-          Chamar no WhatsApp
-        </a>
-        <div className={styles.details}>
-          <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>Rua Major Antônio Ribeiro Vidal, Nº 59 — Cajuru, Curitiba - PR</span>
-          <a href="tel:+5541996713782"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.2 3.5H5.5c-1.1 0-2 .9-2 2 0 8.3 6.7 15 15 15 1.1 0 2-.9 2-2v-2.7l-3.4-1.1-1.3 2.1a13.2 13.2 0 0 1-8.6-8.6l2.1-1.3-1.1-3.4Z" /></svg>(41) 99671-3782</a>
-          <a href="mailto:gutiajs@gmail.com"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>gutiajs@gmail.com</a>
-        </div>
-      </div>
-    </section>
-  )
+  return <section id="contato" className="slide-shell bg-[#030712]"><div className="section-inner w-full"><motion.div initial={{ opacity: 0, scale: .97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: .6 }} className="glass-card relative overflow-hidden rounded-3xl px-6 py-12 text-center shadow-[0_0_60px_rgba(30,64,175,.2)] sm:px-10 lg:py-16">
+    <div className="absolute inset-x-[18%] -top-20 h-44 rounded-full bg-blue-800/25 blur-3xl" /><div className="relative"><p className="slide-number">09 / 09</p><p className="eyebrow">Encerramento</p><h2 className="mx-auto mt-4 max-w-3xl font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Tecnologia que funciona.<br />Atendimento que respeita.</h2><p className="mt-5 text-lg text-slate-300">Samptech Informática — Cajuru, Curitiba - PR</p><a className="mt-7 inline-flex items-center gap-2 rounded-xl border border-blue-400/30 bg-[#071a35] px-5 py-3 text-base font-medium transition-all duration-300 hover:bg-blue-900 hover:shadow-[0_0_36px_rgba(37,99,235,.3)]" href="https://wa.me/5541996713782" target="_blank" rel="noreferrer"><svg className="h-5 w-5 stroke-current" viewBox="0 0 24 24" fill="none"><path d="M20.6 3.4A11 11 0 0 0 3.3 16.7L2 22l5.4-1.3A11 11 0 0 0 20.6 3.4Z" /><path d="M8.2 7.5c.7 4 3.8 7.1 7.8 7.8" /></svg>Chamar no WhatsApp</a><div className="mx-auto mt-9 grid max-w-3xl gap-3 text-base text-slate-300 md:grid-cols-3"><span>Rua Major Antônio Ribeiro Vidal, Nº 59 — Cajuru</span><a href="tel:+5541996713782">(41) 99671-3782</a><a href="mailto:gutiajs@gmail.com">gutiajs@gmail.com</a></div></div>
+  </motion.div></div></section>
 }

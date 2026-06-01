@@ -1,7 +1,0 @@
-.grid { display: grid; gap: 12px; margin-top: 42px; }
-.card { min-height: 232px; padding: 24px; border: 1px solid var(--border); border-left: 3px solid transparent; background: var(--color-surface); transition: .25s; }
-.card:hover { border-left-color: var(--color-accent); transform: translateY(-3px); }
-.card svg { width: 29px; color: var(--color-accent-hover); stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.card h3 { margin: 28px 0 10px; font-size: 1.12rem; }.card p { margin: 0; color: var(--color-text-muted); font-size: .92rem; }
-@media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }

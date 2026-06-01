@@ -1,5 +1,14 @@
-import styles from './Differentials.module.css'
-const items = [['M4 12h16M12 4v16', 'Orçamento antes de tudo', 'Nenhum serviço começa sem a sua aprovação. Sem surpresas na cobrança.'], ['M4 5h16v11H8l-4 4V5Zm4 5h8', 'Atendimento didático', 'Explicamos tudo de forma clara, sem termos técnicos desnecessários.'], ['M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm-3-8 2 2 4-5', 'Presença digital ativa', 'Conteúdo educativo sobre tecnologia no Instagram para manter você informado.']]
+import { motion } from 'framer-motion'
+import PresentationNav from '../PresentationNav/PresentationNav'
+
+const items = [
+  ['Transparência', 'Orçamento aprovado antes da execução.'],
+  ['Qualidade', 'Boas práticas em cada serviço.'],
+  ['Agilidade', 'Prazos claros e atendimento organizado.'],
+  ['Foco no cliente', 'Solução adequada à necessidade real.'],
+  ['Atendimento humano', 'Explicações simples e diretas.'],
+  ['Presença digital', 'Conteúdo educativo e canais acessíveis.'],
+]
 export default function Differentials() {
-  return <section className={`section ${styles.section}`}><div className="container"><p className="eyebrow">Por que escolher a SampTech</p><div className={styles.grid}>{items.map(([path, title, text]) => <article key={title}><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={path} /></svg><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
+  return <section id="diferenciais" className="slide-shell bg-[#020617]"><div className="section-inner"><p className="slide-number">07 / 09</p><p className="eyebrow">Diferenciais</p><h2 className="slide-title">Competência técnica com atendimento próximo.</h2><motion.div variants={{ hidden: {}, show: { transition: { staggerChildren: .07 } } }} initial="hidden" whileInView="show" viewport={{ once: true, amount: .15 }} className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{items.map(([title, text], index) => <motion.article variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }} className="glass-card rounded-2xl p-5" key={title}><span className="font-mono text-xs text-blue-400">0{index + 1}</span><h3 className="mt-4 font-display text-lg font-bold">{title}</h3><p className="mt-2 text-base text-slate-300">{text}</p></motion.article>)}</motion.div><PresentationNav next="financeiro" /></div></section>
 }

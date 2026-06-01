@@ -1,22 +1,16 @@
-import styles from './About.module.css'
+import { motion } from 'framer-motion'
+import PresentationNav from '../PresentationNav/PresentationNav'
 
 const values = [
-  ['eye', 'Transparência', 'Diagnóstico honesto e nenhuma surpresa na cobrança.'],
-  ['check', 'Qualidade', 'Melhores práticas e ferramentas para entregar uma solução duradoura.'],
-  ['bolt', 'Agilidade', 'Prazos curtos e eficiência para devolver seu equipamento funcionando.'],
-  ['heart', 'Foco no cliente', 'A gente ouve, entende a necessidade e atende com respeito.'],
+  ['Transparência', 'Diagnóstico claro e orçamento aprovado.', 'M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Zm10 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z'],
+  ['Qualidade', 'Soluções técnicas feitas para durar.', 'M12 3 20 6v5c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-3Zm-3 9 2 2 4-4'],
+  ['Agilidade', 'Equipamentos funcionando em menos tempo.', 'm13 2-8 12h7l-1 8 8-12h-7l1-8Z'],
 ]
-
-const icons = {
-  eye: <><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" /><circle cx="12" cy="12" r="2.5" /></>,
-  check: <><path d="M12 3 20 6v5c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6l8-3Z" /><path d="m8.5 12 2.2 2.2 4.8-5" /></>,
-  bolt: <path d="m13 2-8 12h7l-1 8 8-12h-7l1-8Z" />,
-  heart: <path d="M20.8 8.5c0 5-8.8 10.4-8.8 10.4S3.2 13.5 3.2 8.5C3.2 5.7 5 4 7.5 4c1.8 0 3.4 1 4.5 2.5C13.1 5 14.7 4 16.5 4 19 4 20.8 5.7 20.8 8.5Z" />,
-}
-
 export default function About() {
-  return <section className="section" id="sobre"><div className={`container ${styles.layout}`}>
-    <div><p className="eyebrow">Nossa base</p><h2 className="section-title">Quem somos</h2><blockquote>“Resolver os problemas tecnológicos de nossos clientes com agilidade, transparência e qualidade, tornando a tecnologia uma aliada e não uma fonte de estresse.”</blockquote><dl className={styles.facts}><div><dt>Fundadores</dt><dd>Gabriel Felipe Sabino de Souza e Lucas Daniel Carvalho de Castilho</dd></div><div><dt>Atuação inicial</dt><dd>Bairro Cajuru, Curitiba - PR</dd></div><div><dt>Empresa</dt><dd>Sociedade Limitada (LTDA) · atividades a partir de agosto de 2026</dd></div></dl></div>
-    <div className={styles.grid}>{values.map(([icon, title, text]) => <article className={styles.card} key={title}><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">{icons[icon]}</svg><h3>{title}</h3><p>{text}</p></article>)}</div>
+  return <section id="sobre" className="slide-shell border-t-0 bg-[#030712]"><div className="section-inner">
+    <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .6 }} className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
+      <div><p className="slide-number">02 / 09</p><p className="eyebrow">Sobre a Samptech</p><h2 className="slide-title">Tecnologia como aliada, não como estresse.</h2><p className="slide-copy">Soluções práticas e acessíveis em assistência técnica para computadores, notebooks e celulares.</p><p className="mt-6 border-l-2 border-blue-500 pl-5 text-base text-slate-300">Cajuru, Curitiba - PR</p><PresentationNav next="problema" /></div>
+      <div className="grid gap-3">{values.map(([title, text, path], index) => <motion.article initial={{ opacity: 0, x: 18 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * .1 }} className="glass-card rounded-2xl p-5 transition-all duration-500 hover:-translate-y-1 hover:border-blue-400/40 hover:bg-white/[.07]" key={title}><svg className="h-6 w-6 stroke-blue-400" viewBox="0 0 24 24" fill="none"><path d={path} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg><h3 className="mt-4 font-display text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-300">{text}</p></motion.article>)}</div>
+    </motion.div>
   </div></section>
 }

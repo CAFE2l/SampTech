@@ -1,6 +1,0 @@
-.flow { display: grid; gap: 0; margin-top: 46px; }
-.step { position: relative; padding: 8px 0 34px 40px; border-left: 1px solid rgba(37,99,168,.55); }
-.step::before { content: ''; position: absolute; top: 14px; left: -5px; width: 9px; height: 9px; border-radius: 50%; background: var(--color-accent-hover); }
-.step b { display: block; color: var(--color-accent); opacity: .4; font: 500 3.2rem/1 'JetBrains Mono', monospace; }
-.step h3 { margin: 18px 0 9px; font-size: 1.25rem; }.step p { max-width: 310px; margin: 0; color: var(--color-text-muted); font-size: .92rem; }
-@media (min-width: 768px) { .flow { grid-template-columns: repeat(3, 1fr); }.step { padding: 30px 28px 0 0; border-top: 1px solid rgba(37,99,168,.55); border-left: 0; }.step::before { top: -5px; left: 0; } }

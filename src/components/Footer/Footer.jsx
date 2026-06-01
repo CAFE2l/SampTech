@@ -1,29 +1,7 @@
 import Logo from '../Logo'
-import styles from './Footer.module.css'
 
-const links = [['sobre', 'Sobre'], ['servicos', 'Serviços'], ['como-funciona', 'Como funciona'], ['contato', 'Contato']]
+const links = [['sobre', 'Sobre'], ['problema', 'Problema'], ['publico', 'Público'], ['servicos', 'Serviços'], ['como-funciona', 'Atendimento'], ['diferenciais', 'Diferenciais'], ['financeiro', 'Gestão'], ['contato', 'Contato']]
 const goTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-
 export default function Footer() {
-  return (
-    <footer className={styles.footer}>
-      <div className={`container ${styles.top}`}>
-        <div><Logo /><p>Sua loja de tecnologia &amp; informática</p></div>
-        <div className={styles.links}>
-          <nav aria-label="Links rápidos">{links.map(([id, label]) => <button onClick={() => goTo(id)} key={id}>{label}</button>)}</nav>
-          <div className={styles.social}>
-            <a href="https://www.instagram.com/samptechassistencia" target="_blank" rel="noreferrer" aria-label="Instagram da Samptech">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" /></svg>
-              Instagram
-            </a>
-            <a href="https://linktr.ee/samptech.informatica" target="_blank" rel="noreferrer" aria-label="Linktree da Samptech">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 4 4h-2.5l3.8 3.8h-3l3.7 3.7h-4.5V21h-3v-6.5H6l3.7-3.7h-3L10.5 7H8l4-4Z" /></svg>
-              Linktree
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className={`container ${styles.bottom}`}>© 2026 SampTech Informática — Curitiba, PR. Todos os direitos reservados.</div>
-    </footer>
-  )
+  return <footer className="border-t border-white/10 bg-[#020617] px-4 sm:px-6 lg:px-8"><div className="mx-auto grid max-w-7xl gap-8 py-10 md:grid-cols-[1fr_auto] md:items-center"><div><Logo /><p className="mt-3 text-sm text-slate-400">Sua loja de tecnologia &amp; informática</p></div><div className="grid gap-4 md:justify-items-end"><nav className="flex flex-wrap gap-4">{links.map(([id, label]) => <button className="text-xs text-slate-400 transition-colors hover:text-white" onClick={() => goTo(id)} key={id}>{label}</button>)}</nav><div className="flex gap-4 text-xs text-slate-400"><a className="hover:text-blue-400" href="https://www.instagram.com/samptechassistencia" target="_blank" rel="noreferrer">Instagram</a><a className="hover:text-blue-400" href="https://linktr.ee/samptech.informatica" target="_blank" rel="noreferrer">Linktree</a><a className="hover:text-blue-400" href="mailto:gutiajs@gmail.com">E-mail</a></div></div></div><div className="mx-auto max-w-7xl border-t border-white/10 py-4 text-xs text-slate-500">© 2026 SampTech Informática — Curitiba, PR. Todos os direitos reservados.</div></footer>
 }
